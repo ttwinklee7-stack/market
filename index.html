@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Day Studio - Lesson 10</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    :root {
+      --primary: #f97316;
+      --primary-hover: #ea580c;
+      --primary-light: #fff7ed;
+      --border: #fed7aa;
+      --text: #1e293b;
+      --muted: #64748b;
+      --bg: #fffbf5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
+
+    /* 헤더 */
+    header { background: #ffffff; border-bottom: 2px solid #fdba74; padding: 1.1rem 2rem; position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .header-inner { max-width: 820px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo-badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.25rem; color: #c2410c; }
+    .logo-badge span { font-size: 1.4rem; }
+    .logo-sub { font-size: 0.85rem; color: var(--muted); font-weight: normal; margin-left: 6px; }
+    .steps { display: flex; gap: 8px; }
+    .step-item { width: 32px; height: 32px; border-radius: 50%; background: #fed7aa; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: #9a3412; }
+    .step-item.active { background: var(--primary); color: #ffffff; }
+
+    /* 메인 */
+    main { max-width: 820px; margin: 2rem auto; padding: 0 1rem; }
+    .card { background: #ffffff; border-radius: 16px; border: 1px solid #fed7aa; padding: 2.2rem; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.08); }
+
+    .step-pane { display: none; }
+    .step-pane.active { display: block; }
+
+    h2 { font-size: 1.35rem; color: #9a3412; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 6px; }
+    p.guide-desc { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.6rem; }
+
+    /* 규칙 카드 */
+    .rule-box { background: var(--primary-light); border: 1.5px dashed var(--primary); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.8rem; }
+    .rule-title { font-weight: 700; color: #c2410c; margin-bottom: 0.6rem; font-size: 1rem; }
+    .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .rule-item { background: #ffffff; border-radius: 8px; padding: 0.8rem; border: 1px solid #ffedd5; }
+    .rule-item strong { color: #ea580c; display: block; margin-bottom: 4px; }
+
+    /* 퀴즈 박스 */
+    .quiz-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.2rem; }
+    .quiz-card p { font-weight: 600; margin-bottom: 0.6rem; }
+    .quiz-options { display: flex; gap: 0.8rem; }
+    .quiz-btn { padding: 0.5rem 1.2rem; border: 1.5px solid #cbd5e1; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: 0.15s; }
+    .quiz-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .quiz-btn.correct { background: #22c55e !important; color: white !important; border-color: #22c55e !important; }
+    .quiz-btn.wrong { background: #ef4444 !important; color: white !important; border-color: #ef4444 !important; }
+
+    /* 입력 폼 */
+    .form-group { margin-bottom: 1.4rem; }
+    label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.5rem; color: #334155; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    input, select { width: 100%; padding: 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; transition: border-color 0.2s; }
+    input:focus, select:focus { outline: none; border-color: var(--primary); }
+
+    /* 버튼 그룹 */
+    .btn-group { display: flex; justify-content: space-between; margin-top: 2rem; }
+    .btn { padding: 0.75rem 1.6rem; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; border: none; transition: 0.2s; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #f1f5f9; color: #475569; }
+    .btn-secondary:hover { background: #e2e8f0; }
+
+    /* 알뜰시장 광고문 전단지 미리보기 스타일 */
+    .market-poster {
+      background: #fff;
+      border: 3px solid #f97316;
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.12);
+    }
+    .poster-header { text-align: center; border-bottom: 2px dashed #fed7aa; padding-bottom: 1.2rem; margin-bottom: 1.5rem; }
+    .poster-banner { background: #ffedd5; color: #c2410c; display: inline-block; padding: 4px 14px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
+    .poster-title { font-size: 1.8rem; font-weight: 800; color: #9a3412; }
+    .poster-meta { display: flex; justify-content: center; gap: 20px; margin-top: 8px; font-size: 0.9rem; color: #475569; }
+
+    .poster-items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+    .poster-item-card { border: 1.5px solid #ffedd5; background: #fffaf5; border-radius: 12px; padding: 1.2rem; text-align: center; }
+    .poster-item-card .item-icon { font-size: 3rem; margin-bottom: 6px; }
+    .poster-item-card .item-title { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+    .poster-item-card .item-feature { font-size: 0.95rem; color: #64748b; margin-bottom: 10px; }
+    .poster-item-card .item-price { font-size: 1.3rem; font-weight: 800; color: #c2410c; background: #ffedd5; display: inline-block; padding: 4px 12px; border-radius: 6px; }
+
+    .poster-script {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 1.2rem;
+      border-left: 4px solid var(--primary);
+      margin-top: 1rem;
+    }
+    .poster-script h4 { font-size: 0.95rem; color: #475569; margin-bottom: 6px; }
+    .poster-script p { font-size: 1rem; line-height: 1.6; color: #1e293b; }
+
+    /* 대화 연습 박스 */
+    .dialogue-box { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1.2rem; margin-top: 1.5rem; }
+    .dialogue-box h3 { color: #166534; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .dialogue-line { margin: 6px 0; font-size: 0.95rem; }
+    .dialogue-line span.speaker { font-weight: 700; display: inline-block; width: 80px; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      header, .btn-group, .dialogue-box, h2, p.guide-desc { display: none !important; }
+      .card { border: none; box-shadow: none; padding: 0; }
+      .market-poster { border: 2px solid #000; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-badge">
+        <span>🛒</span>
+        <div>
+          <b>Market Day Studio</b>
+          <span class="logo-sub">Lesson 10 · 우리 학교 알뜰 시장 광고문</span>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step-item active" id="dot-1">1</div>
+        <div class="step-item" id="dot-2">2</div>
+        <div class="step-item" id="dot-3">3</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      
+      <!-- 1단계: 규칙 복습 & 퀴즈 (교과서 152쪽) -->
+      <section class="step-pane active" id="step-1">
+        <h2>🔍 1단계: 가격 묻기 규칙 발견하기 (Discovery Fun)</h2>
+        <p class="guide-desc">교과서 152쪽 내용을 복습해 보세요! 물건이 1개인지, 2개 이상(또는 짝)인지에 따라 달라져요.</p>
+
+        <div class="rule-box">
+          <div class="rule-title">💡 꼭 기억할 규칙!</div>
+          <div class="rule-grid">
+            <div class="rule-item">
+              <strong>1개일 때 (단수)</strong>
+              • How much <b>is this</b> cap?<br>
+              • <b>It's</b> 1,000 won.
+            </div>
+            <div class="rule-item">
+              <strong>2개 이상 또는 짝(한 켤레)일 때 (복수)</strong>
+              • How much <b>are these</b> sunglasses?<br>
+              • <b>They are</b> 4,000 won.
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">✏️ 빈칸 퀴즈 (Quiz)</h3>
+        
+        <div class="quiz-card">
+          <p>1. How much ________ this watch? (시계 1개)</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkQuiz(this, true)">is</button>
+            <button class="quiz-btn" onclick="checkQuiz(this, false)">are</button>
+          </div>
+        </div>
+
+        <div class="quiz-card">
+          <p>2. How much ________ these shoes? (신발 한 켤레)</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkQuiz(this, false)">is</button>
+            <button class="quiz-btn" onclick="checkQuiz(this, true)">are</button>
+          </div>
+        </div>
+
+        <div class="btn-group" style="justify-content: flex-end;">
+          <button class="btn btn-primary" onclick="goToStep(2)">광고문 만들러 가기 &rarr;</button>
+        </div>
+      </section>
+
+      <!-- 2단계: 물건 정보 입력 (교과서 153쪽) -->
+      <section class="step-pane" id="step-2">
+        <h2>📝 2단계: 알뜰 시장에서 팔 물건 정하기 (Step 1 & 2)</h2>
+        <p class="guide-desc">우리 학교 알뜰 시장에서 내가 팔고 싶은 물건 2가지의 정보와 가격을 입력하세요.</p>
+
+        <!-- 기본 정보 -->
+        <div class="form-grid">
+          <div class="form-group">
+            <label>내 이름 / 부스 이름</label>
+            <input type="text" id="seller-name" placeholder="예: 5학년 1반 Minho">
+          </div>
+          <div class="form-group">
+            <label>장소 및 시간</label>
+            <input type="text" id="market-place" value="오후 2시, 5학년 교실">
+          </div>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #fee2e2; margin: 1.2rem 0;">
+
+        <!-- 물건 1: 1개인 물건 (This is...) -->
+        <div style="background: #fffaf0; padding: 1.2rem; border-radius: 10px; border: 1px solid #fed7aa; margin-bottom: 1.4rem;">
+          <h3 style="font-size: 1rem; color: #9a3412; margin-bottom: 0.8rem;">🛍️ 첫 번째 물건 (1개인 물건 - This)</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>물건 종류</label>
+              <select id="item1-type">
+                <option value="cap" data-icon="🧢">cap (모자)</option>
+                <option value="umbrella" data-icon="☂️">umbrella (우산)</option>
+                <option value="watch" data-icon="⌚">watch (시계)</option>
+                <option value="doll" data-icon="🧸">doll (인형)</option>
+                <option value="bag" data-icon="🎒">bag (가방)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>색깔 또는 크기 (형용사)</label>
+              <input type="text" id="item1-feature" placeholder="예: green, red, small">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>판매 가격 (원 단위 숫자)</label>
+            <input type="number" id="item1-price" placeholder="예: 1000" step="500">
+          </div>
+        </div>
+
+        <!-- 물건 2: 짝/복수인 물건 (These are...) -->
+        <div style="background: #fdf4ff; padding: 1.2rem; border-radius: 10px; border: 1px solid #f5d0fe; margin-bottom: 1.4rem;">
+          <h3 style="font-size: 1rem; color: #86198f; margin-bottom: 0.8rem;">👟 두 번째 물건 (짝/복수 물건 - These)</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>물건 종류</label>
+              <select id="item2-type">
+                <option value="sunglasses" data-icon="🕶️">sunglasses (선글라스)</option>
+                <option value="socks" data-icon="🧦">socks (양말)</option>
+                <option value="gloves" data-icon="🧤">gloves (장갑)</option>
+                <option value="shoes" data-icon="👟">shoes (신발)</option>
+                <option value="pants" data-icon="👖">pants (바지)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>색깔 또는 특징</label>
+              <input type="text" id="item2-feature" placeholder="예: blue, star pattern">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>판매 가격 (원 단위 숫자)</label>
+            <input type="number" id="item2-price" placeholder="예: 2000" step="500">
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="goToStep(1)">&larr; 규칙 복습</button>
+          <button class="btn btn-primary" onclick="generatePoster(); goToStep(3)">광고문 완성하기 &rarr;</button>
+        </div>
+      </section>
+
+      <!-- 3단계: 알뜰 시장 포스터 & 짝 대화 (교과서 153쪽 Step 3) -->
+      <section class="step-pane" id="step-3">
+        <h2>🎉 3단계: 우리 학교 알뜰 시장 광고문 (Classroom Market Day)</h2>
+        <p class="guide-desc">작성된 광고문을 확인하고, 짝과 함께 가격을 묻고 답하는 가게 놀이를 해보세요!</p>
+
+        <!-- 광고문 포스터 출력 영역 -->
+        <div class="market-poster" id="poster-area">
+          <div class="poster-header">
+            <div class="poster-banner">Classroom Market Day 💖</div>
+            <div class="poster-title" id="out-seller-title">Welcome to My Market!</div>
+            <div class="poster-meta">
+              <span>📍 <strong id="out-market-place">5학년 교실</strong></span>
+              <span>🏷️ <strong>Everything on Sale!</strong></span>
+            </div>
+          </div>
+
+          <div class="poster-items-grid">
+            <!-- 물건 1 카드 -->
+            <div class="poster-item-card">
+              <div class="item-icon" id="out-item1-icon">🧢</div>
+              <div class="item-title" id="out-item1-name">Cap</div>
+              <div class="item-feature" id="out-item1-feature">This is green.</div>
+              <div class="item-price" id="out-item1-price">₩1,000</div>
+            </div>
+
+            <!-- 물건 2 카드 -->
+            <div class="poster-item-card">
+              <div class="item-icon" id="out-item2-icon">🕶️</div>
+              <div class="item-title" id="out-item2-name">Sunglasses</div>
+              <div class="item-feature" id="out-item2-feature">These are blue.</div>
+              <div class="item-price" id="out-item2-price">₩4,000</div>
+            </div>
+          </div>
+
+          <!-- 영어 본문 문장 -->
+          <div class="poster-script">
+            <h4>📖 교과서 형식 광고문 (Read your advertisement aloud!)</h4>
+            <p id="out-script-text">
+              Look at my cap and sunglasses. They are on sale.<br>
+              This cap is green. It's 1,000 won.<br>
+              These sunglasses are blue. They are 4,000 won.
+            </p>
+          </div>
+        </div>
+
+        <!-- 짝 대화 가이드 -->
+        <div class="dialogue-box">
+          <h3>🗣️ 짝과 함께 대화해 보세요! (Role-play)</h3>
+          <div class="dialogue-line">
+            <span class="speaker">손님 (짝):</span>
+            <span id="role-q1">"How much is this cap?"</span>
+          </div>
+          <div class="dialogue-line">
+            <span class="speaker">주인 (나):</span>
+            <span id="role-a1">"It's 1,000 won."</span>
+          </div>
+          <div class="dialogue-line" style="margin-top: 8px;">
+            <span class="speaker">손님 (짝):</span>
+            <span id="role-q2">"How much are these sunglasses?"</span>
+          </div>
+          <div class="dialogue-line">
+            <span class="speaker">주인 (나):</span>
+            <span id="role-a2">"They are 4,000 won."</span>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="goToStep(2)">&larr; 내용 수정하기</button>
+          <button class="btn btn-primary" onclick="window.print()">🖨️ 포스터 인쇄 / PDF 저장</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    function goToStep(step) {
+      document.querySelectorAll('.step-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.step-item').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(`step-${step}`).classList.add('active');
+      document.getElementById(`dot-${step}`).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function checkQuiz(btn, isCorrect) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.quiz-btn').forEach(b => {
+        b.classList.remove('correct', 'wrong');
+      });
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('wrong');
+      }
+    }
+
+    function generatePoster() {
+      const seller = document.getElementById('seller-name').value.trim() || 'My';
+      const place = document.getElementById('market-place').value.trim() || '우리 교실';
+
+      // 물건 1 (단수)
+      const sel1 = document.getElementById('item1-type');
+      const item1 = sel1.value;
+      const icon1 = sel1.options[sel1.selectedIndex].getAttribute('data-icon');
+      const feat1 = document.getElementById('item1-feature').value.trim() || 'clean';
+      const price1Num = parseInt(document.getElementById('item1-price').value) || 1000;
+      const price1Str = price1Num.toLocaleString();
+
+      // 물건 2 (복수)
+      const sel2 = document.getElementById('item2-type');
+      const item2 = sel2.value;
+      const icon2 = sel2.options[sel2.selectedIndex].getAttribute('data-icon');
+      const feat2 = document.getElementById('item2-feature').value.trim() || 'cool';
+      const price2Num = parseInt(document.getElementById('item2-price').value) || 2000;
+      const price2Str = price2Num.toLocaleString();
+
+      // 포스터 렌더링
+      document.getElementById('out-seller-title').innerText = `${seller}'s Classroom Market`;
+      document.getElementById('out-market-place').innerText = place;
+
+      document.getElementById('out-item1-icon').innerText = icon1;
+      document.getElementById('out-item1-name').innerText = item1.toUpperCase();
+      document.getElementById('out-item1-feature').innerText = `This is ${feat1}.`;
+      document.getElementById('out-item1-price').innerText = `₩${price1Str}`;
+
+      document.getElementById('out-item2-icon').innerText = icon2;
+      document.getElementById('out-item2-name').innerText = item2.toUpperCase();
+      document.getElementById('out-item2-feature').innerText = `These are ${feat2}.`;
+      document.getElementById('out-item2-price').innerText = `₩${price2Str}`;
+
+      // 스크립트 문장 작성 (교과서 152쪽 형식 적용)
+      document.getElementById('out-script-text').innerHTML = `
+        Look at my <b>${item1}</b> and <b>${item2}</b>. They are on sale.<br>
+        This ${item1} is <b>${feat1}</b>. It's <b>${price1Str} won</b>.<br>
+        These ${item2} are <b>${feat2}</b>. They are <b>${price2Str} won</b>.
+      `;
+
+      // 짝 대화 업데이트 (교과서 153쪽 Step 3)
+      document.getElementById('role-q1').innerText = `"How much is this ${item1}?"`;
+      document.getElementById('role-a1').innerText = `"It's ${price1Str} won."`;
+      document.getElementById('role-q2').innerText = `"How much are these ${item2}?"`;
+      document.getElementById('role-a2').innerText = `"They are ${price2Str} won."`;
+    }
+  </script>
+</body>
+</html>
