@@ -72,29 +72,68 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
+    /* Step 1 & Step 2 시각적 분리 */
     .step-card {
       background: #ffffff;
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    /* Step 1: 블루/인디고 테마 (물건 등록) */
+    .step-card.step-1 {
+      border: 2px solid #818cf8;
+      background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+      box-shadow: 0 4px 18px rgba(99, 102, 241, 0.08);
+    }
+    .step-card.step-1 .step-title {
+      color: #312e81;
+      border-bottom: 2px solid #e0e7ff;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .step-card.step-1 .step-tag {
+      background: #4f46e5;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 20px;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Step 2: 에메랄드/그린 테마 (글쓰기) */
+    .step-card.step-2 {
+      border: 2px solid #34d399;
+      background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.08);
+      margin-top: 4px;
+    }
+    .step-card.step-2 .step-title {
+      color: #064e3b;
+      border-bottom: 2px solid #d1fae5;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .step-card.step-2 .step-tag {
+      background: #059669;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 20px;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+    }
+
     .step-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: #334155;
-      margin-bottom: 10px;
+      font-size: 15px;
+      font-weight: 900;
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-    .step-tag {
-      background: var(--primary);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 6px;
+      gap: 10px;
+      letter-spacing: -0.2px;
     }
 
     label.field-lbl {
@@ -283,6 +322,27 @@
     }
     .clickable-phrase:hover { background: #e0e7ff; border-color: var(--primary); color: var(--primary); }
 
+    /* 다시 쓰기 버튼 스타일 */
+    .reset-text-btn {
+      background: #f1f5f9;
+      color: #64748b;
+      border: 1.5px solid #cbd5e1;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .reset-text-btn:hover {
+      background: #fee2e2;
+      border-color: #f87171;
+      color: #dc2626;
+    }
+
     .writing-editor {
       width: 100%;
       height: 115px;
@@ -396,21 +456,19 @@
     }
     .poster-half-media:last-child { border-right: none; }
     
-    /* 🌟🌟 [수정] 업로드 사진 잘림 방지 (contain) & 프리셋 SVG 시원하게 확대 🌟🌟 */
     .poster-half-media img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* 사진 잘림 방지: 원본 전체 온전히 표시 */
+      object-fit: contain;
       padding: 6px;
     }
     .poster-half-media svg {
       width: 80%;
       height: 80%;
       max-width: 175px;
-      max-height: 175px; /* 프리셋 아이콘 크기 확대 */
+      max-height: 175px;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
     }
-    /* 갤러리워크 전체화면에서는 프리셋 SVG를 더 시원하게 확대 */
     .gw-big-media-container .poster-half-media svg {
       max-width: 230px;
       max-height: 230px;
@@ -600,7 +658,6 @@
       gap: 16px;
     }
 
-    /* 갤러리워크 전용 대형 고대비 대화 상자 */
     .gw-dialogue-box {
       background: rgba(255, 255, 255, 0.1);
       border: 2px solid rgba(255, 255, 255, 0.25);
@@ -670,7 +727,7 @@
       </div>
 
       <!-- Step 1: 물건 등록 -->
-      <div class="step-card">
+      <div class="step-card step-1">
         <div class="step-title"><span class="step-tag">Step 1</span> 물건 정보 준비하기</div>
 
         <!-- 1개 단독 모드 -->
@@ -806,7 +863,7 @@
       </div>
 
       <!-- Step 2: 글쓰기 및 템플릿 -->
-      <div class="step-card">
+      <div class="step-card step-2">
         <div class="step-title"><span class="step-tag" style="background:#059669;">Step 2</span> 내 손으로 쓰는 광고문</div>
 
         <div class="level-tabs">
@@ -817,12 +874,15 @@
 
         <div class="scaffold-box" id="scaffoldContainer"></div>
 
-        <label class="field-lbl" for="studentTextarea">✏️ 영어 광고문 직접 쓰기</label>
-        <textarea id="studentTextarea" class="writing-editor" placeholder="여기에 영어 문장을 직접 써보세요. 위의 비계 표현을 클릭하면 자동으로 들어갑니다!" oninput="syncStudentText()"></textarea>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <label class="field-lbl" for="studentTextarea" style="margin-bottom:0;">✏️ 영어 광고문 직접 쓰기</label>
+          <button type="button" class="reset-text-btn" onclick="resetStudentWriting()" title="작성한 글을 지우고 처음부터 다시 씁니다">🔄 다시 쓰기</button>
+        </div>
+        <textarea id="studentTextarea" class="writing-editor" placeholder="여기에 영어 문장을 직접 써보세요. 위의 힌트 표현을 클릭하면 자동으로 들어갑니다!" oninput="syncStudentText()"></textarea>
 
         <!-- 스마트 자동 교정 -->
         <div class="checklist">
-          <span style="width: 100%; font-size: 11px; color: #4338ca; font-weight: 800; margin-bottom: 2px;">
+          <span style="width: 100%; font-size: 11px; color: #065f46; font-weight: 800; margin-bottom: 2px;">
             ⚡ 체크하면 글이 자동으로 수정됩니다:
           </span>
           <label class="check-btn-badge">
@@ -1014,18 +1074,18 @@
 
       if (saleMode === 'single') {
         if (currentLevel === 'sprout') {
-          guideTitle = "🌱 새싹 비계 (1개 물건 기본 틀):";
+          guideTitle = "🌱 새싹 힌트 (1개 물건 기본 틀):";
           chips = ["Look at my", "It is on sale.", "They are on sale.", "This is", "These are", "It's", "They're", "won."];
         } else if (currentLevel === 'tree') {
-          guideTitle = "🌳 나무 비계 (세부 특징 더하기):";
+          guideTitle = "🌳 나무 힌트 (세부 특징 더하기):";
           chips = ["It has", "They have", "stars", "hearts", "stripes", "cute flowers", "big pockets", "clean and cool"];
         } else {
-          guideTitle = "🍎 열매 비계 (마케팅 홍보 문구):";
+          guideTitle = "🍎 열매 힌트 (마케팅 홍보 문구):";
           chips = ["Buy one, get one free!", "Special sale, only today!", "It's very cheap and nice!", "Don't miss it!"];
         }
       } else {
         if (currentLevel === 'sprout') {
-          guideTitle = "🌱 새싹 비계 (교과서 153쪽 2개 물건 소개형):";
+          guideTitle = "🌱 새싹 힌트 (교과서 153쪽 2개 물건 소개형):";
           chips = [
             `Look at my ${item1.name} and ${item2.name}.`,
             "They are on sale.",
@@ -1034,7 +1094,7 @@
             "It's", "They're", "won."
           ];
         } else if (currentLevel === 'tree') {
-          guideTitle = "🌳 나무 비계 (2개 물건 세부 특징 완성형):";
+          guideTitle = "🌳 나무 힌트 (2개 물건 세부 특징 완성형):";
           chips = [
             `It has`,
             `They have`,
@@ -1042,7 +1102,7 @@
             `They are very cute.`
           ];
         } else {
-          guideTitle = "🍎 열매 비계 (실전 마케팅 패키지 세트 할인):";
+          guideTitle = "🍎 열매 힌트 (실전 마케팅 패키지 세트 할인):";
           chips = [
             "Special sale, only today!",
             `Buy both for ${ (item1.price + item2.price - 1000).toLocaleString() } won!`,
@@ -1079,6 +1139,28 @@
       document.getElementById('tabTree').className = `level-btn tree ${lvl==='tree'?'active':''}`;
       document.getElementById('tabFruit').className = `level-btn fruit ${lvl==='fruit'?'active':''}`;
       renderScaffolding();
+    }
+
+    /* 🔄 다시 쓰기 (작성 글 및 교정 체크박스 초기화) */
+    function resetStudentWriting() {
+      const area = document.getElementById('studentTextarea');
+      if (!area) return;
+
+      if (area.value.trim().length > 0) {
+        if (!confirm("작성 중인 광고문 글을 모두 지우고 다시 쓰시겠습니까?")) {
+          return;
+        }
+      }
+
+      area.value = '';
+      
+      ['chkCapital', 'chkPunctuation', 'chkVerb'].forEach(id => {
+        const chk = document.getElementById(id);
+        if (chk) chk.checked = false;
+      });
+
+      syncStudentText();
+      area.focus();
     }
 
     function syncStudentText() {
