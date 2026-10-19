@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>알뜰시장 광고문 제작소 & 갤러리워크 쇼케이스</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --sprout: #16a34a;
+      --tree: #0284c7;
+      --fruit: #dc2626;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', system-ui, -apple-system, sans-serif; }
+    body { background-color: #f1f5f9; color: #1e293b; height: 100vh; overflow: hidden; }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* 좌측 작업 공간 */
+    .left-panel {
+      background-color: #f8fafc;
+      border-right: 2px solid var(--border);
+      height: 100vh;
+      overflow-y: auto;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+    .app-header h1 { font-size: 18px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+    .grade-badge { font-size: 11.5px; background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 20px; font-weight: 700; }
+
+    /* 모드 토글 (1개 vs 2개 세트) */
+    .mode-toggle-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 12px;
+    }
+    .mode-btn {
+      padding: 8px;
+      border: none;
+      background: none;
+      font-size: 13px;
+      font-weight: 800;
+      color: #64748b;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mode-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .step-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .step-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-tag {
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    label.field-lbl {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+
+    .upload-box {
+      border: 2px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .upload-box:hover { border-color: var(--primary); background: #eef2ff; }
+    .upload-box input { display: none; }
+    .upload-text { font-size: 11.5px; color: #64748b; font-weight: 600; }
+
+    .input-box {
+      width: 100%;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 7px 11px;
+      font-size: 13px;
+      background: #fff;
+      outline: none;
+      transition: 0.2s;
+      font-weight: 600;
+    }
+    .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); }
+    .input-box.focused-target { border-color: #6366f1; background-color: #f5f3ff; }
+
+    .preset-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+    .item-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 4px 9px;
+      border-radius: 16px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .item-chip:hover { border-color: var(--primary); color: var(--primary); background: #eef2ff; }
+
+    .feature-bank-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .feature-subrow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .feat-chip {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .feat-chip:hover { border-color: #6366f1; color: #4338ca; background: #e0e7ff; }
+
+    .grammar-switch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 6px;
+    }
+
+    .price-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    input[type=range] { flex: 1; accent-color: #ef4444; cursor: pointer; }
+    .price-display {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #b91c1c;
+      min-width: 80px;
+      text-align: right;
+    }
+
+    .two-items-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .sub-item-card {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sub-item-header {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+    }
+
+    /* Step 2 */
+    .level-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .level-btn {
+      padding: 7px 4px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      transition: 0.2s;
+    }
+    .level-btn.active.sprout { background: #f0fdf4; border-color: var(--sprout); color: var(--sprout); }
+    .level-btn.active.tree { background: #f0f9ff; border-color: var(--tree); color: var(--tree); }
+    .level-btn.active.fruit { background: #fef2f2; border-color: var(--fruit); color: var(--fruit); }
+
+    .scaffold-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-size: 11.5px;
+      line-height: 1.6;
+    }
+    .clickable-phrase {
+      background: #fff;
+      border: 1px dashed #94a3b8;
+      border-radius: 6px;
+      padding: 2px 6px;
+      margin: 2px 2px;
+      display: inline-block;
+      cursor: pointer;
+      font-weight: 700;
+      color: #334155;
+      font-size: 11.5px;
+      transition: 0.15s;
+    }
+    .clickable-phrase:hover { background: #e0e7ff; border-color: var(--primary); color: var(--primary); }
+
+    .writing-editor {
+      width: 100%;
+      height: 115px;
+      padding: 10px;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      transition: 0.2s;
+      font-weight: 500;
+    }
+    .writing-editor:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); }
+
+    .checklist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+    }
+    .check-btn-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: 0.15s;
+      user-select: none;
+    }
+    .check-btn-badge:hover { border-color: var(--primary); color: var(--primary); background: #eef2ff; }
+    .check-btn-badge input { cursor: pointer; accent-color: var(--primary); }
+
+    /* 우측 패널 */
+    .right-panel {
+      background: #e2e8f0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .top-actions {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fullscreen-btn {
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: 0.2s;
+    }
+    .fullscreen-btn:hover { background: #0f172a; }
+
+    .ad-poster {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      overflow: hidden;
+      border: 3px solid #ffffff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .poster-media-container {
+      width: 100%;
+      height: 210px;
+      background: #f1f5f9;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+    .poster-half-media {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-right: 1px dashed #cbd5e1;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+    .poster-half-media:last-child { border-right: none; }
+    
+    /* 🌟🌟 [수정] 업로드 사진 잘림 방지 (contain) & 프리셋 SVG 시원하게 확대 🌟🌟 */
+    .poster-half-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* 사진 잘림 방지: 원본 전체 온전히 표시 */
+      padding: 6px;
+    }
+    .poster-half-media svg {
+      width: 80%;
+      height: 80%;
+      max-width: 175px;
+      max-height: 175px; /* 프리셋 아이콘 크기 확대 */
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+    }
+    /* 갤러리워크 전체화면에서는 프리셋 SVG를 더 시원하게 확대 */
+    .gw-big-media-container .poster-half-media svg {
+      max-width: 230px;
+      max-height: 230px;
+    }
+
+    .price-tag-sub {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #dc2626;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 16px;
+      font-weight: 900;
+      font-size: 12.5px;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+      z-index: 5;
+    }
+
+    .poster-content {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .poster-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 4px;
+    }
+    .poster-item-name { font-size: 19px; font-weight: 900; color: #0f172a; text-transform: capitalize; }
+    .poster-features { font-size: 12px; color: #64748b; font-weight: 700; }
+
+    .poster-student-text {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1e293b;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 55px;
+      font-weight: 600;
+    }
+    .poster-student-text.empty {
+      color: #94a3b8;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* 기본 미리보기 대화 카드 */
+    .dialogue-card {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1.5px solid #cbd5e1;
+    }
+    .dialogue-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #475569;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dialogue-bubble { display: flex; gap: 6px; font-size: 12.5px; margin-bottom: 4px; line-height: 1.4; }
+    .dialogue-role {
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 10.5px;
+      min-width: 38px;
+      text-align: center;
+      height: fit-content;
+    }
+    .role-buyer { background: #dbeafe; color: #1e40af; }
+    .role-seller { background: #fef3c7; color: #92400e; }
+    .dialogue-line { color: #334155; font-weight: 700; }
+    .highlight-word { color: #dc2626; font-weight: 800; }
+
+    /* 각각의 독립 판매 컨트롤 바 */
+    .sales-box-container {
+      width: 100%;
+      max-width: 520px;
+      background: #1e1b4b;
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sales-summary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 6px;
+    }
+    .sales-btn-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.07);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .btn-sell-add { background: #ec4899; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .btn-sell-minus { background: #475569; color: #f1f5f9; border: none; padding: 5px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; }
+
+    /* 풀스크린 갤러리워크 오버레이 */
+    .gallery-fullscreen-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(135deg, #090d16 0%, #17153b 100%);
+      z-index: 9999;
+      flex-direction: column;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      color: #ffffff;
+      overflow-y: auto;
+    }
+    .gw-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .gw-header-title { font-size: 22px; font-weight: 900; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+    .gw-body-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .gw-big-poster {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+    }
+    .gw-big-media-container {
+      width: 100%;
+      height: 290px;
+      background: #f8fafc;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      margin-bottom: 14px;
+    }
+    .gw-big-text {
+      background: #f1f5f9;
+      border-left: 6px solid var(--primary);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 19px;
+      line-height: 1.7;
+      font-weight: 600;
+      flex: 1;
+      white-space: pre-wrap;
+    }
+    .gw-side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 갤러리워크 전용 대형 고대비 대화 상자 */
+    .gw-dialogue-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .gw-dialogue-box .dialogue-bubble {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .gw-dialogue-box .dialogue-role {
+      font-size: 13.5px;
+      font-weight: 900;
+      padding: 5px 12px;
+      border-radius: 8px;
+      min-width: 52px;
+      text-align: center;
+      margin-top: 3px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    }
+    .gw-dialogue-box .role-buyer {
+      background: #3b82f6 !important;
+      color: #ffffff !important;
+    }
+    .gw-dialogue-box .role-seller {
+      background: #f59e0b !important;
+      color: #0f172a !important;
+    }
+    .gw-dialogue-box .dialogue-line {
+      font-size: 21px;
+      font-weight: 700;
+      color: #ffffff !important;
+      letter-spacing: 0.3px;
+      word-break: break-word;
+    }
+    .gw-dialogue-box .highlight-word {
+      color: #fde047 !important;
+      font-weight: 900;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- [좌측] 워크스페이스 -->
+    <div class="left-panel">
+      <div class="app-header">
+        <h1>🛍️ 알뜰시장 광고문 제작소</h1>
+        <div class="grade-badge">초등 5학년 10단원</div>
+      </div>
+
+      <!-- 모드 선택: 1개 vs 2개 세트 -->
+      <div class="mode-toggle-wrap">
+        <button class="mode-btn active" id="modeSingleBtn" onclick="setSaleMode('single')">📦 물건 1개 팔기</button>
+        <button class="mode-btn" id="modeMultiBtn" onclick="setSaleMode('multi')">🛍️ 물건 2개 세트 팔기</button>
+      </div>
+
+      <!-- Step 1: 물건 등록 -->
+      <div class="step-card">
+        <div class="step-title"><span class="step-tag">Step 1</span> 물건 정보 준비하기</div>
+
+        <!-- 1개 단독 모드 -->
+        <div id="singleItemSection">
+          <label class="field-lbl">1-1. 팔고 싶은 물건과 사진</label>
+          <div class="upload-box" onclick="document.getElementById('fileUploadInput1').click()">
+            <input type="file" id="fileUploadInput1" accept="image/*" onchange="handleImageUpload(event, 1)">
+            <div class="upload-text" id="uploadStatusText1">📸 사진 올리기 (클릭)</div>
+          </div>
+          <div style="margin-top: 6px;">
+            <input type="text" id="customItemInput1" class="input-box" placeholder="물건 이름 직접 쓰기 (예: cap)" onfocus="setActiveTargetInput('featureInput1')" oninput="handleItemInputChange(1)">
+          </div>
+
+          <div style="margin-top: 6px;">
+            <div class="preset-items">
+              <span class="item-chip" onclick="selectPresetItem(1, 'cap', false)">🧢 cap</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'T-shirt', false)">👕 T-shirt</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'bag', false)">🎒 bag</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'umbrella', false)">☂️ umbrella</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'socks', true)">🧦 socks</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'sunglasses', true)">🕶️ sunglasses</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'shoes', true)">👟 shoes</span>
+              <span class="item-chip" onclick="selectPresetItem(1, 'pants', true)">👖 pants</span>
+            </div>
+          </div>
+
+          <div class="grammar-switch">
+            <span>문법:</span>
+            <label><input type="radio" name="grammarType1" id="gramSingular1" checked onchange="changeGrammar(1, false)"> 1개 (is/this)</label>
+            <label><input type="radio" name="grammarType1" id="gramPlural1" onchange="changeGrammar(1, true)"> 2개 이상 (are/these)</label>
+          </div>
+
+          <label class="field-lbl" style="margin-top:8px;">1-2. 물건의 크기, 색깔, 특징</label>
+          <input type="text" id="featureInput1" class="input-box" placeholder="예: pink with white hearts" onfocus="setActiveTargetInput('featureInput1')" oninput="updateAllDisplays()">
+
+          <label class="field-lbl" style="margin-top:8px;">1-3. 가격 정하기</label>
+          <div class="price-slider-wrap">
+            <input type="range" id="priceRange1" min="1000" max="10000" step="1000" value="2000" oninput="updatePrice(1, this.value)">
+            <div class="price-display" id="priceLabel1">2,000 won</div>
+          </div>
+        </div>
+
+        <!-- 2개 세트 모드 (Item 1 & Item 2 각각 분리) -->
+        <div id="multiItemSection" style="display:none;">
+          <div class="two-items-box">
+            <!-- 물건 1 카드 -->
+            <div class="sub-item-card">
+              <div class="sub-item-header">
+                <span>📦 첫 번째 물건</span>
+                <span id="targetBadge1" style="font-size:10px; color:#6366f1; display:none;">● 입력 대상</span>
+              </div>
+              <div class="upload-box" onclick="document.getElementById('fileUploadInput1_m').click()">
+                <input type="file" id="fileUploadInput1_m" accept="image/*" onchange="handleImageUpload(event, 1)">
+                <div class="upload-text" id="uploadStatusText1_m">📸 사진 올리기</div>
+              </div>
+              <input type="text" id="customItemInput1_m" class="input-box" placeholder="이름 (예: T-shirt)" value="T-shirt" onfocus="setActiveTargetInput('featureInput1_m')" oninput="handleMultiNameChange(1)">
+              <div class="preset-items">
+                <span class="item-chip" onclick="selectMultiPreset(1, 'T-shirt', false)">👕 T-shirt</span>
+                <span class="item-chip" onclick="selectMultiPreset(1, 'cap', false)">🧢 cap</span>
+                <span class="item-chip" onclick="selectMultiPreset(1, 'bag', false)">🎒 bag</span>
+              </div>
+              <div style="font-size:11px; display:flex; gap:6px;">
+                <label><input type="radio" name="gramM1" id="gM1_s" checked onchange="changeGrammar(1, false)"> is</label>
+                <label><input type="radio" name="gramM1" id="gM1_p" onchange="changeGrammar(1, true)"> are</label>
+              </div>
+              <input type="text" id="featureInput1_m" class="input-box" placeholder="특징 (클릭 후 아래 칩 선택)" value="yellow" onfocus="setActiveTargetInput('featureInput1_m')" oninput="updateAllDisplays()">
+              <div class="price-slider-wrap">
+                <input type="range" id="priceRange1_m" min="1000" max="10000" step="1000" value="3000" oninput="updatePrice(1, this.value)">
+                <span id="priceLabel1_m" style="font-size:12px; font-weight:800; color:#b91c1c;">3,000 won</span>
+              </div>
+            </div>
+
+            <!-- 물건 2 카드 -->
+            <div class="sub-item-card">
+              <div class="sub-item-header">
+                <span>📦 두 번째 물건</span>
+                <span id="targetBadge2" style="font-size:10px; color:#6366f1; display:none;">● 입력 대상</span>
+              </div>
+              <div class="upload-box" onclick="document.getElementById('fileUploadInput2_m').click()">
+                <input type="file" id="fileUploadInput2_m" accept="image/*" onchange="handleImageUpload(event, 2)">
+                <div class="upload-text" id="uploadStatusText2_m">📸 사진 올리기</div>
+              </div>
+              <input type="text" id="customItemInput2_m" class="input-box" placeholder="이름 (예: shoes)" value="shoes" onfocus="setActiveTargetInput('featureInput2_m')" oninput="handleMultiNameChange(2)">
+              <div class="preset-items">
+                <span class="item-chip" onclick="selectMultiPreset(2, 'shoes', true)">👟 shoes</span>
+                <span class="item-chip" onclick="selectMultiPreset(2, 'socks', true)">🧦 socks</span>
+                <span class="item-chip" onclick="selectMultiPreset(2, 'sunglasses', true)">🕶️ sunglasses</span>
+              </div>
+              <div style="font-size:11px; display:flex; gap:6px;">
+                <label><input type="radio" name="gramM2" id="gM2_s" onchange="changeGrammar(2, false)"> is</label>
+                <label><input type="radio" name="gramM2" id="gM2_p" checked onchange="changeGrammar(2, true)"> are</label>
+              </div>
+              <input type="text" id="featureInput2_m" class="input-box" placeholder="특징 (클릭 후 아래 칩 선택)" value="blue and clean" onfocus="setActiveTargetInput('featureInput2_m')" oninput="updateAllDisplays()">
+              <div class="price-slider-wrap">
+                <input type="range" id="priceRange2_m" min="1000" max="10000" step="1000" value="5000" oninput="updatePrice(2, this.value)">
+                <span id="priceLabel2_m" style="font-size:12px; font-weight:800; color:#b91c1c;">5,000 won</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 특징 어휘 뱅크 -->
+        <div class="feature-bank-wrap">
+          <div style="font-size:11px; font-weight:800; color:#4f46e5;" id="targetGuideText">
+            👉 특징을 넣을 입력창을 누른 뒤 아래 단어를 골라보세요:
+          </div>
+          <div class="feature-subrow">
+            <span style="color:#0284c7;">🎨 색깔:</span>
+            <span class="feat-chip" onclick="appendActiveFeature('red')">red</span>
+            <span class="feat-chip" onclick="appendActiveFeature('blue')">blue</span>
+            <span class="feat-chip" onclick="appendActiveFeature('yellow')">yellow</span>
+            <span class="feat-chip" onclick="appendActiveFeature('green')">green</span>
+            <span class="feat-chip" onclick="appendActiveFeature('pink')">pink</span>
+            <span class="feat-chip" onclick="appendActiveFeature('white')">white</span>
+            <span class="feat-chip" onclick="appendActiveFeature('black')">black</span>
+          </div>
+          <div class="feature-subrow">
+            <span style="color:#16a34a;">📏 상태:</span>
+            <span class="feat-chip" onclick="appendActiveFeature('clean')">clean</span>
+            <span class="feat-chip" onclick="appendActiveFeature('cool')">cool</span>
+            <span class="feat-chip" onclick="appendActiveFeature('cute')">cute</span>
+            <span class="feat-chip" onclick="appendActiveFeature('new')">new</span>
+          </div>
+          <div class="feature-subrow">
+            <span style="color:#ea580c;">✨ 무늬/특징:</span>
+            <span class="feat-chip" onclick="appendActiveFeature('stars')">stars ⭐</span>
+            <span class="feat-chip" onclick="appendActiveFeature('hearts')">hearts ❤️</span>
+            <span class="feat-chip" onclick="appendActiveFeature('stripes')">stripes 🦓</span>
+            <span class="feat-chip" onclick="appendActiveFeature('cute flowers')">cute flowers 🌸</span>
+            <span class="feat-chip" onclick="appendActiveFeature('big pockets')">big pockets 🎒</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: 글쓰기 및 템플릿 -->
+      <div class="step-card">
+        <div class="step-title"><span class="step-tag" style="background:#059669;">Step 2</span> 내 손으로 쓰는 광고문</div>
+
+        <div class="level-tabs">
+          <button class="level-btn active sprout" id="tabSprout" onclick="switchLevel('sprout')">🌱 새싹 레벨</button>
+          <button class="level-btn tree" id="tabTree" onclick="switchLevel('tree')">🌳 나무 레벨</button>
+          <button class="level-btn fruit" id="tabFruit" onclick="switchLevel('fruit')">🍎 열매 레벨</button>
+        </div>
+
+        <div class="scaffold-box" id="scaffoldContainer"></div>
+
+        <label class="field-lbl" for="studentTextarea">✏️ 영어 광고문 직접 쓰기</label>
+        <textarea id="studentTextarea" class="writing-editor" placeholder="여기에 영어 문장을 직접 써보세요. 위의 비계 표현을 클릭하면 자동으로 들어갑니다!" oninput="syncStudentText()"></textarea>
+
+        <!-- 스마트 자동 교정 -->
+        <div class="checklist">
+          <span style="width: 100%; font-size: 11px; color: #4338ca; font-weight: 800; margin-bottom: 2px;">
+            ⚡ 체크하면 글이 자동으로 수정됩니다:
+          </span>
+          <label class="check-btn-badge">
+            <input type="checkbox" id="chkCapital" onchange="autoFixAllCapitals(this)">
+            <span>모든 문장 첫 글자 대문자(Capital)</span>
+          </label>
+          <label class="check-btn-badge">
+            <input type="checkbox" id="chkPunctuation" onchange="autoFixSmartPunctuation(this)">
+            <span>문장부호 확인 (. / ?)</span>
+          </label>
+          <label class="check-btn-badge">
+            <input type="checkbox" id="chkVerb" onchange="autoFixBeVerb(this)">
+            <span>짝꿍 확인 (is는 this랑 / are은 these랑)</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- [우측] 광고문 실시간 미리보기 & 갤러리워크 -->
+    <div class="right-panel">
+
+      <div class="top-actions">
+        <span style="font-size:13.5px; font-weight:800; color:#475569;">실시간 미리보기 & 쇼케이스</span>
+        <button class="fullscreen-btn" onclick="openGalleryMode()">🖼️ 갤러리워크 전체화면 열기</button>
+      </div>
+
+      <!-- 포스터 보드 -->
+      <div class="ad-poster" id="mainPoster">
+        <div class="poster-media-container" id="posterMediaContainer"></div>
+        <div class="poster-content">
+          <div class="poster-title-row">
+            <div class="poster-item-name" id="posterItemLabel">(물건 이름)</div>
+            <div class="poster-features" id="posterFeatureLabel">(특징/색깔)</div>
+          </div>
+          <div class="poster-student-text empty" id="posterStudentText">Step 2에서 광고문을 직접 작성하면 이곳에 실시간으로 나타납니다.</div>
+        </div>
+      </div>
+
+      <!-- 대화 가이드 (기본 미리보기용) -->
+      <div class="dialogue-card">
+        <div class="dialogue-title">
+          <span>🗣️ 알뜰시장 말하기 대화 (Dialogue)</span>
+          <button style="border:none; background:none; cursor:pointer; font-size:14px;" onclick="speakDialogue()">🔊 발음 듣기</button>
+        </div>
+        <div id="dialogueContainer"></div>
+      </div>
+
+      <!-- 각각 독립된 실시간 판매 카운터 -->
+      <div class="sales-box-container" id="salesBoxContainer"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- [풀스크린 갤러리워크 오버레이] -->
+  <div class="gallery-fullscreen-overlay" id="galleryOverlay">
+    <div class="gw-header">
+      <div class="gw-header-title"><span>🏪</span> 우리 반 알뜰시장 쇼케이스 (Gallery Walk Mode)</div>
+      <div style="display:flex; gap:8px;">
+        <button class="fullscreen-btn" style="background:#334155;" onclick="toggleBrowserFullscreen()">🖥️ 브라우저 전체화면(F11)</button>
+        <button class="fullscreen-btn" style="background:#ef4444;" onclick="closeGalleryMode()">✖️ 갤러리워크 닫기 (Esc)</button>
+      </div>
+    </div>
+
+    <div class="gw-body-grid">
+      <div class="gw-big-poster">
+        <div class="gw-big-media-container" id="gwPosterMediaContainer"></div>
+        <div class="poster-item-name" id="gwPosterItemName" style="font-size:24px; margin-bottom:6px;">(물건 이름)</div>
+        <div class="gw-big-text" id="gwPosterStudentText">Step 2에서 광고문을 작성하면 이곳에 큼직하게 표시됩니다.</div>
+      </div>
+
+      <div class="gw-side-panel">
+        <div class="gw-dialogue-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">
+            <span style="font-size: 17px; font-weight:900; color:#38bdf8;">🗣️ 실전 마켓 롤플레이 대화</span>
+            <button style="background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:6px; padding:4px 10px; font-size:13px; font-weight:800; cursor:pointer;" onclick="speakDialogue()">🔊 원어민 음성</button>
+          </div>
+          <div id="gwDialogueContainer"></div>
+        </div>
+
+        <div class="sales-box-container" id="gwSalesBoxContainer" style="border:2px solid #6366f1;"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    let saleMode = 'single';
+    let currentLevel = 'sprout';
+
+    let soldItem1 = 0;
+    let soldItem2 = 0;
+    let soldBoth = 0;
+
+    let activeTargetInputId = 'featureInput1';
+
+    let item1 = { name: "cap", isPlural: false, price: 2000, feature: "", image: null };
+    let item2 = { name: "shoes", isPlural: true, price: 5000, feature: "blue and clean", image: null };
+
+    const svgTemplates = {
+      cap: `<svg viewBox="0 0 100 100"><path d="M22 62 C22 32, 68 30, 74 58 C62 60, 36 62, 22 62 Z" fill="#2563eb"/><path d="M42 32 C48 42, 54 52, 56 60 C42 61, 30 62, 22 62 C22 45, 30 35, 42 32 Z" fill="#3b82f6"/><path d="M54 58 C66 57, 85 58, 93 64 C85 71, 62 70, 48 62 C50 60, 52 59, 54 58 Z" fill="#1d4ed8"/><path d="M48 62 C62 70, 85 71, 93 64 C91 66, 78 72, 52 64 Z" fill="#1e40af"/><circle cx="43" cy="32" r="4" fill="#fbbf24"/><circle cx="34" cy="44" r="1.8" fill="#1e3a8a"/><circle cx="46" cy="42" r="1.8" fill="#1e3a8a"/><path d="M32 54 L36 46 L40 54 M34 51 L38 51" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`,
+      'T-shirt': `<svg viewBox="0 0 100 100"><path d="M32 25 L12 38 L22 52 L32 44 L32 80 L68 80 L68 44 L78 52 L88 38 L68 25 C62 33, 38 33, 32 25 Z" fill="#10b981"/><path d="M38 25 C42 32, 58 32, 62 25" stroke="#059669" stroke-width="3" fill="none"/></svg>`,
+      bag: `<svg viewBox="0 0 100 100"><rect x="25" y="42" width="50" height="42" rx="10" fill="#8b5cf6"/><path d="M36 42 V28 C36 20, 64 20, 64 28 V42" stroke="#6d28d9" stroke-width="4" fill="none"/><circle cx="50" cy="55" r="4" fill="#fbbf24"/></svg>`,
+      umbrella: `<svg viewBox="0 0 100 100"><path d="M15 55 C15 20, 85 20, 85 55 C73 50, 62 50, 50 55 C38 50, 27 50, 15 55 Z" fill="#ec4899"/><path d="M50 20 L50 78 M50 78 C50 85, 42 85, 42 80" stroke="#475569" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`,
+      socks: `<svg viewBox="0 0 100 100"><path d="M26 22 L44 22 L44 54 C44 65, 52 66, 57 71 C57 78, 51 83, 40 83 C28 83, 26 71, 26 56 Z" fill="#ff769f" rx="4"/><path d="M54 22 L72 22 L72 54 C72 65, 80 66, 85 71 C85 78, 79 83, 68 83 C56 83, 54 71, 54 56 Z" fill="#ff769f" rx="4"/><rect x="25" y="20" width="20" height="7" rx="3" fill="#ffffff" stroke="#f43f5e" stroke-width="1"/><rect x="53" y="20" width="20" height="7" rx="3" fill="#ffffff" stroke="#f43f5e" stroke-width="1"/></svg>`,
+      sunglasses: `<svg viewBox="0 0 100 100"><circle cx="32" cy="52" r="18" fill="#1e293b" stroke="#64748b" stroke-width="4"/><circle cx="68" cy="52" r="18" fill="#1e293b" stroke="#64748b" stroke-width="4"/><path d="M50 50 L50 54 M14 50 L8 44 M86 50 L92 44" stroke="#64748b" stroke-width="4" stroke-linecap="round"/></svg>`,
+      shoes: `<svg viewBox="0 0 100 100"><path d="M14 62 Q24 46 38 52 L46 62 L46 70 L14 70 Z" fill="#6366f1"/><path d="M54 62 Q64 46 78 52 L86 62 L86 70 L54 70 Z" fill="#6366f1"/><rect x="12" y="70" width="36" height="6" rx="2" fill="#0f172a"/><rect x="52" y="70" width="36" height="6" rx="2" fill="#0f172a"/></svg>`,
+      pants: `<svg viewBox="0 0 100 100"><path d="M28 22 L72 22 L68 84 L52 84 L50 48 L48 84 L32 84 Z" fill="#2563eb"/><path d="M28 28 L72 28" stroke="#1d4ed8" stroke-width="3"/></svg>`
+    };
+
+    function init() {
+      renderScaffolding();
+      updateAllDisplays();
+    }
+
+    function setSaleMode(mode) {
+      saleMode = mode;
+      document.getElementById('modeSingleBtn').classList.toggle('active', mode === 'single');
+      document.getElementById('modeMultiBtn').classList.toggle('active', mode === 'multi');
+
+      document.getElementById('singleItemSection').style.display = (mode === 'single') ? 'block' : 'none';
+      document.getElementById('multiItemSection').style.display = (mode === 'multi') ? 'block' : 'none';
+
+      if (mode === 'multi') {
+        item1.name = document.getElementById('customItemInput1_m').value.trim() || "T-shirt";
+        item1.isPlural = false;
+        item2.name = document.getElementById('customItemInput2_m').value.trim() || "shoes";
+        item2.isPlural = true;
+        setActiveTargetInput('featureInput1_m');
+      } else {
+        setActiveTargetInput('featureInput1');
+      }
+
+      renderScaffolding();
+      updateAllDisplays();
+    }
+
+    function updateTargetGuideText() {
+      const guide = document.getElementById('targetGuideText');
+      const b1 = document.getElementById('targetBadge1');
+      const b2 = document.getElementById('targetBadge2');
+
+      const name1 = item1.name || "Item 1";
+      const name2 = item2.name || "Item 2";
+
+      if (activeTargetInputId === 'featureInput2_m') {
+        if (guide) guide.innerHTML = `👉 <b>두 번째 물건 (${name2})</b>의 특징을 입력하고 있어요:`;
+        if (b1) b1.style.display = 'none';
+        if (b2) b2.style.display = 'inline';
+      } else if (activeTargetInputId === 'featureInput1_m') {
+        if (guide) guide.innerHTML = `👉 <b>첫 번째 물건 (${name1})</b>의 특징을 입력하고 있어요:`;
+        if (b1) b1.style.display = 'inline';
+        if (b2) b2.style.display = 'none';
+      } else {
+        if (guide) guide.innerHTML = `👉 <b>물건 (${name1})</b>의 특징을 입력하고 있어요:`;
+        if (b1) b1.style.display = 'none';
+        if (b2) b2.style.display = 'none';
+      }
+    }
+
+    function setActiveTargetInput(inputId) {
+      activeTargetInputId = inputId;
+
+      ['featureInput1', 'featureInput1_m', 'featureInput2_m'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('focused-target');
+      });
+
+      const currentEl = document.getElementById(inputId);
+      if (currentEl) currentEl.classList.add('focused-target');
+
+      updateTargetGuideText();
+    }
+
+    function appendActiveFeature(word) {
+      const input = document.getElementById(activeTargetInputId);
+      if (input) {
+        input.value = input.value ? input.value + ", " + word : word;
+        updateAllDisplays();
+      }
+    }
+
+    function renderScaffolding() {
+      const container = document.getElementById('scaffoldContainer');
+      let chips = [];
+      let guideTitle = "";
+
+      if (saleMode === 'single') {
+        if (currentLevel === 'sprout') {
+          guideTitle = "🌱 새싹 비계 (1개 물건 기본 틀):";
+          chips = ["Look at my", "It is on sale.", "They are on sale.", "This is", "These are", "It's", "They're", "won."];
+        } else if (currentLevel === 'tree') {
+          guideTitle = "🌳 나무 비계 (세부 특징 더하기):";
+          chips = ["It has", "They have", "stars", "hearts", "stripes", "cute flowers", "big pockets", "clean and cool"];
+        } else {
+          guideTitle = "🍎 열매 비계 (마케팅 홍보 문구):";
+          chips = ["Buy one, get one free!", "Special sale, only today!", "It's very cheap and nice!", "Don't miss it!"];
+        }
+      } else {
+        if (currentLevel === 'sprout') {
+          guideTitle = "🌱 새싹 비계 (교과서 153쪽 2개 물건 소개형):";
+          chips = [
+            `Look at my ${item1.name} and ${item2.name}.`,
+            "They are on sale.",
+            `This ${item1.name} is`,
+            `These ${item2.name} are`,
+            "It's", "They're", "won."
+          ];
+        } else if (currentLevel === 'tree') {
+          guideTitle = "🌳 나무 비계 (2개 물건 세부 특징 완성형):";
+          chips = [
+            `It has`,
+            `They have`,
+            `It is clean and cool.`,
+            `They are very cute.`
+          ];
+        } else {
+          guideTitle = "🍎 열매 비계 (실전 마케팅 패키지 세트 할인):";
+          chips = [
+            "Special sale, only today!",
+            `Buy both for ${ (item1.price + item2.price - 1000).toLocaleString() } won!`,
+            "Buy one, get one free!",
+            "Don't miss it!"
+          ];
+        }
+      }
+
+      let chipsHtml = chips.map(c => `<span class="clickable-phrase" onclick="insertPhrase('${c}')">+ ${c}</span>`).join('');
+      container.innerHTML = `
+        <div style="font-weight:800; margin-bottom:4px; color:#475569;">${guideTitle}</div>
+        <div>${chipsHtml}</div>
+      `;
+    }
+
+    function insertPhrase(phrase) {
+      const area = document.getElementById('studentTextarea');
+      const start = area.selectionStart;
+      const end = area.selectionEnd;
+      const original = area.value;
+      const needsSpace = (start > 0 && original[start - 1] !== ' ' && original[start - 1] !== '\n');
+      const insertText = (needsSpace ? ' ' : '') + phrase + ' ';
+
+      area.value = original.substring(0, start) + insertText + original.substring(end);
+      area.focus();
+      area.selectionStart = area.selectionEnd = start + insertText.length;
+      syncStudentText();
+    }
+
+    function switchLevel(lvl) {
+      currentLevel = lvl;
+      document.getElementById('tabSprout').className = `level-btn sprout ${lvl==='sprout'?'active':''}`;
+      document.getElementById('tabTree').className = `level-btn tree ${lvl==='tree'?'active':''}`;
+      document.getElementById('tabFruit').className = `level-btn fruit ${lvl==='fruit'?'active':''}`;
+      renderScaffolding();
+    }
+
+    function syncStudentText() {
+      const text = document.getElementById('studentTextarea').value.trim();
+      const pText = document.getElementById('posterStudentText');
+      const gwText = document.getElementById('gwPosterStudentText');
+
+      if (!text) {
+        pText.className = "poster-student-text empty";
+        pText.innerText = "Step 2에서 광고문을 직접 작성하면 이곳에 실시간으로 나타납니다.";
+        if (gwText) gwText.innerText = "Step 2에서 광고문을 작성하면 이곳에 큼직하게 표시됩니다.";
+      } else {
+        pText.className = "poster-student-text";
+        pText.innerText = text;
+        if (gwText) gwText.innerText = text;
+      }
+    }
+
+    function handleImageUpload(e, itemNum) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          if (itemNum === 1) {
+            item1.image = event.target.result;
+            const t1 = document.getElementById('uploadStatusText1');
+            const t1m = document.getElementById('uploadStatusText1_m');
+            if (t1) t1.innerText = `✅ 첨부됨 (${file.name})`;
+            if (t1m) t1m.innerText = `✅ 첨부됨`;
+          } else {
+            item2.image = event.target.result;
+            const t2m = document.getElementById('uploadStatusText2_m');
+            if (t2m) t2m.innerText = `✅ 첨부됨`;
+          }
+          updateAllDisplays();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function selectPresetItem(num, name, isPlural) {
+      item1.name = name;
+      item1.isPlural = isPlural;
+      item1.image = null;
+      document.getElementById('customItemInput1').value = name;
+      document.getElementById('gramSingular1').checked = !isPlural;
+      document.getElementById('gramPlural1').checked = isPlural;
+      updateTargetGuideText();
+      renderScaffolding();
+      updateAllDisplays();
+    }
+
+    function selectMultiPreset(num, name, isPlural) {
+      if (num === 1) {
+        item1.name = name;
+        item1.isPlural = isPlural;
+        item1.image = null;
+        document.getElementById('customItemInput1_m').value = name;
+        document.getElementById('gM1_s').checked = !isPlural;
+        document.getElementById('gM1_p').checked = isPlural;
+      } else {
+        item2.name = name;
+        item2.isPlural = isPlural;
+        item2.image = null;
+        document.getElementById('customItemInput2_m').value = name;
+        document.getElementById('gM2_s').checked = !isPlural;
+        document.getElementById('gM2_p').checked = isPlural;
+      }
+      updateTargetGuideText();
+      renderScaffolding();
+      updateAllDisplays();
+    }
+
+    function handleItemInputChange(num) {
+      item1.name = document.getElementById('customItemInput1').value.trim() || "(item)";
+      updateTargetGuideText();
+      renderScaffolding();
+      updateAllDisplays();
+    }
+
+    function handleMultiNameChange(num) {
+      item1.name = document.getElementById('customItemInput1_m').value.trim() || "Item 1";
+      item2.name = document.getElementById('customItemInput2_m').value.trim() || "Item 2";
+      updateTargetGuideText();
+      renderScaffolding();
+      updateAllDisplays();
+    }
+
+    function changeGrammar(num, isPlural) {
+      if (num === 1) item1.isPlural = isPlural;
+      else item2.isPlural = isPlural;
+      updateAllDisplays();
+    }
+
+    function updatePrice(num, val) {
+      const p = parseInt(val, 10);
+      if (num === 1) {
+        item1.price = p;
+        const str = p.toLocaleString() + " won";
+        if (document.getElementById('priceLabel1')) document.getElementById('priceLabel1').innerText = str;
+        if (document.getElementById('priceLabel1_m')) document.getElementById('priceLabel1_m').innerText = str;
+      } else {
+        item2.price = p;
+        const str = p.toLocaleString() + " won";
+        if (document.getElementById('priceLabel2_m')) document.getElementById('priceLabel2_m').innerText = str;
+      }
+      updateAllDisplays();
+    }
+
+    function updateAllDisplays() {
+      const pMedia = document.getElementById('posterMediaContainer');
+      const gwMedia = document.getElementById('gwPosterMediaContainer');
+      const pName = document.getElementById('posterItemLabel');
+      const pFeat = document.getElementById('posterFeatureLabel');
+      const gwName = document.getElementById('gwPosterItemName');
+
+      if (saleMode === 'single') {
+        const mediaHtml = `
+          <div class="poster-half-media" style="width:100%;">
+            <div class="price-tag-sub" style="font-size:14px; padding:4px 12px;">${item1.price.toLocaleString()} won</div>
+            ${item1.image ? `<img src="${item1.image}">` : (svgTemplates[item1.name] || `<span style="font-size:48px;">📦</span>`)}
+          </div>
+        `;
+        pMedia.innerHTML = mediaHtml;
+        if (gwMedia) gwMedia.innerHTML = mediaHtml;
+
+        const feat1 = document.getElementById('featureInput1').value.trim();
+        pName.innerText = item1.name;
+        pFeat.innerText = feat1 || "(특징/색깔)";
+        if (gwName) gwName.innerText = item1.name;
+
+        const be = item1.isPlural ? "are" : "is";
+        const dem = item1.isPlural ? "these" : "this";
+        const pr = item1.isPlural ? "They're" : "It's";
+        const tk = item1.isPlural ? "them" : "it";
+
+        const dlgHtml = `
+          <div class="dialogue-bubble"><span class="dialogue-role role-buyer">손님</span><span class="dialogue-line">How much <span class="highlight-word">${be} ${dem} ${item1.name}</span>?</span></div>
+          <div class="dialogue-bubble"><span class="dialogue-role role-seller">주인</span><span class="dialogue-line">${pr} <span class="highlight-word">${item1.price.toLocaleString()} won</span>.</span></div>
+          <div class="dialogue-bubble"><span class="dialogue-role role-buyer">손님</span><span class="dialogue-line">Okay. <span class="highlight-word">I'll take ${tk}</span>. Thank you!</span></div>
+        `;
+        document.getElementById('dialogueContainer').innerHTML = dlgHtml;
+        const gwDlg = document.getElementById('gwDialogueContainer');
+        if (gwDlg) gwDlg.innerHTML = dlgHtml;
+
+      } else {
+        const mediaHtml = `
+          <div class="poster-half-media">
+            <div class="price-tag-sub">${item1.price.toLocaleString()} won</div>
+            ${item1.image ? `<img src="${item1.image}">` : (svgTemplates[item1.name] || `<span style="font-size:36px;">📦</span>`)}
+          </div>
+          <div class="poster-half-media">
+            <div class="price-tag-sub">${item2.price.toLocaleString()} won</div>
+            ${item2.image ? `<img src="${item2.image}">` : (svgTemplates[item2.name] || `<span style="font-size:36px;">🛍️</span>`)}
+          </div>
+        `;
+        pMedia.innerHTML = mediaHtml;
+        if (gwMedia) gwMedia.innerHTML = mediaHtml;
+
+        const f1 = document.getElementById('featureInput1_m').value.trim();
+        const f2 = document.getElementById('featureInput2_m').value.trim();
+        pName.innerText = `${item1.name} & ${item2.name}`;
+        pFeat.innerText = `${f1 ? item1.name+': '+f1 : ''} ${f2 ? ' / '+item2.name+': '+f2 : ''}`;
+        if (gwName) gwName.innerText = `${item1.name} & ${item2.name}`;
+
+        const be1 = item1.isPlural ? "are" : "is";
+        const dem1 = item1.isPlural ? "these" : "this";
+        const pr1 = item1.isPlural ? "They're" : "It's";
+
+        const be2 = item2.isPlural ? "are" : "is";
+        const dem2 = item2.isPlural ? "these" : "this";
+        const pr2 = item2.isPlural ? "They're" : "It's";
+
+        const dlgHtml = `
+          <div class="dialogue-bubble"><span class="dialogue-role role-buyer">손님</span><span class="dialogue-line">How much <span class="highlight-word">${be1} ${dem1} ${item1.name}</span>?</span></div>
+          <div class="dialogue-bubble"><span class="dialogue-role role-seller">주인</span><span class="dialogue-line">${pr1} <span class="highlight-word">${item1.price.toLocaleString()} won</span>.</span></div>
+          <div class="dialogue-bubble"><span class="dialogue-role role-buyer">손님</span><span class="dialogue-line">How much <span class="highlight-word">${be2} ${dem2} ${item2.name}</span>?</span></div>
+          <div class="dialogue-bubble"><span class="dialogue-role role-seller">주인</span><span class="dialogue-line">${pr2} <span class="highlight-word">${item2.price.toLocaleString()} won</span>.</span></div>
+          <div class="dialogue-bubble"><span class="dialogue-role role-buyer">손님</span><span class="dialogue-line">Okay. <span class="highlight-word">I'll take both</span>. Thank you!</span></div>
+        `;
+        document.getElementById('dialogueContainer').innerHTML = dlgHtml;
+        const gwDlg = document.getElementById('gwDialogueContainer');
+        if (gwDlg) gwDlg.innerHTML = dlgHtml;
+      }
+
+      renderSalesBar();
+    }
+
+    function renderSalesBar() {
+      const container = document.getElementById('salesBoxContainer');
+      const gwContainer = document.getElementById('gwSalesBoxContainer');
+
+      let totalWon = 0;
+      let html = "";
+
+      if (saleMode === 'single') {
+        totalWon = soldItem1 * item1.price;
+        html = `
+          <div class="sales-summary-header">
+            <span style="font-size:14px; font-weight:900; color:#38bdf8;">🎉 ${soldItem1}개 판매 완료</span>
+            <span style="font-size:12px; color:#c7d2fe;">총액: ${totalWon.toLocaleString()} won</span>
+          </div>
+          <div class="sales-btn-row">
+            <span>📦 ${item1.name} (${item1.price.toLocaleString()}원)</span>
+            <div style="display:flex; gap:4px;">
+              <button class="btn-sell-add" onclick="changeSaleCount('item1', 1)">💰 +1 판매</button>
+              <button class="btn-sell-minus" onclick="changeSaleCount('item1', -1)">↩️ -1</button>
+            </div>
+          </div>
+        `;
+      } else {
+        totalWon = (soldItem1 * item1.price) + (soldItem2 * item2.price) + (soldBoth * (item1.price + item2.price));
+        const totalItemsSold = soldItem1 + soldItem2 + (soldBoth * 2);
+
+        html = `
+          <div class="sales-summary-header">
+            <span style="font-size:13.5px; font-weight:900; color:#38bdf8;">🎉 총 ${totalItemsSold}개 물품 판매</span>
+            <span style="font-size:12px; color:#c7d2fe;">정산: ${totalWon.toLocaleString()} won</span>
+          </div>
+          <div class="sales-btn-row">
+            <span>1️⃣ ${item1.name} (${soldItem1}개)</span>
+            <div style="display:flex; gap:4px;">
+              <button class="btn-sell-add" onclick="changeSaleCount('item1', 1)">💰 +1</button>
+              <button class="btn-sell-minus" onclick="changeSaleCount('item1', -1)">-1</button>
+            </div>
+          </div>
+          <div class="sales-btn-row">
+            <span>2️⃣ ${item2.name} (${soldItem2}개)</span>
+            <div style="display:flex; gap:4px;">
+              <button class="btn-sell-add" onclick="changeSaleCount('item2', 1)">💰 +1</button>
+              <button class="btn-sell-minus" onclick="changeSaleCount('item2', -1)">-1</button>
+            </div>
+          </div>
+          <div class="sales-btn-row">
+            <span>🛍️ 세트 함께 (${soldBoth}회)</span>
+            <div style="display:flex; gap:4px;">
+              <button class="btn-sell-add" style="background:#7c3aed;" onclick="changeSaleCount('both', 1)">🎁 세트 +1</button>
+              <button class="btn-sell-minus" onclick="changeSaleCount('both', -1)">-1</button>
+            </div>
+          </div>
+        `;
+      }
+
+      if (container) container.innerHTML = html;
+      if (gwContainer) gwContainer.innerHTML = html;
+    }
+
+    function changeSaleCount(type, delta) {
+      if (type === 'item1') {
+        if (soldItem1 + delta >= 0) soldItem1 += delta;
+      } else if (type === 'item2') {
+        if (soldItem2 + delta >= 0) soldItem2 += delta;
+      } else if (type === 'both') {
+        if (soldBoth + delta >= 0) soldBoth += delta;
+      }
+      renderSalesBar();
+    }
+
+    function autoFixAllCapitals(checkbox) {
+      if (!checkbox.checked) return;
+      const area = document.getElementById('studentTextarea');
+      let text = area.value;
+      if (!text.trim()) return;
+
+      text = text.replace(/(^|\n)\s*([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+      text = text.replace(/([.?!]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+      text = text.replace(/\bi\b/g, 'I');
+
+      area.value = text;
+      syncStudentText();
+    }
+
+    function autoFixSmartPunctuation(checkbox) {
+      if (!checkbox.checked) return;
+      const area = document.getElementById('studentTextarea');
+      let text = area.value.trim();
+      if (!text) return;
+
+      const lines = text.split('\n');
+      const processed = lines.map(line => {
+        let trimmed = line.trim();
+        if (!trimmed) return line;
+        const hasPunc = /[.?!]$/.test(trimmed);
+        const isQ = /^(how|what|who|where|when|why|which|is|are|do|does|can)\b/i.test(trimmed);
+
+        if (!hasPunc) trimmed += isQ ? '?' : '.';
+        else if (isQ && trimmed.endsWith('.')) trimmed = trimmed.slice(0, -1) + '?';
+        return trimmed;
+      });
+
+      area.value = processed.join('\n');
+      syncStudentText();
+    }
+
+    function autoFixBeVerb(checkbox) {
+      if (!checkbox.checked) return;
+      const area = document.getElementById('studentTextarea');
+      let text = area.value;
+      if (!text.trim()) return;
+
+      text = text.replace(/\bhow\s+much\s+are\s+this\b/gi, "How much is this");
+      text = text.replace(/\bthis\s+are\b/gi, "this is");
+      text = text.replace(/\bThis\s+are\b/g, "This is");
+
+      text = text.replace(/\bhow\s+much\s+is\s+these\b/gi, "How much are these");
+      text = text.replace(/\bthese\s+is\b/gi, "these are");
+      text = text.replace(/\bThese\s+is\b/g, "These are");
+
+      if (saleMode === 'multi') {
+        text = text.replace(/\bThey\s+is\s+on\s+sale\b/gi, "They are on sale");
+      }
+
+      area.value = text;
+      syncStudentText();
+    }
+
+    function speakDialogue() {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      let textToSpeak = "";
+
+      if (saleMode === 'single') {
+        const be = item1.isPlural ? "are" : "is";
+        const dem = item1.isPlural ? "these" : "this";
+        const pr = item1.isPlural ? "They're" : "It's";
+        textToSpeak = `How much ${be} ${dem} ${item1.name}? ... ${pr} ${item1.price} won. ... I'll take it.`;
+      } else {
+        const be1 = item1.isPlural ? "are" : "is";
+        const dem1 = item1.isPlural ? "these" : "this";
+        const be2 = item2.isPlural ? "are" : "is";
+        const dem2 = item2.isPlural ? "these" : "this";
+        textToSpeak = `How much ${be1} ${dem1} ${item1.name}? ... It's ${item1.price} won. ... How much ${be2} ${dem2} ${item2.name}? ... They're ${item2.price} won. ... I'll take both.`;
+      }
+
+      const u = new SpeechSynthesisUtterance(textToSpeak);
+      u.lang = 'en-US';
+      u.rate = 0.88;
+      window.speechSynthesis.speak(u);
+    }
+
+    function openGalleryMode() {
+      document.getElementById('galleryOverlay').style.display = 'flex';
+      updateAllDisplays();
+      syncStudentText();
+    }
+    function closeGalleryMode() {
+      document.getElementById('galleryOverlay').style.display = 'none';
+      if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+    }
+    function toggleBrowserFullscreen() {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeGalleryMode();
+    });
+
+    init();
+  </script>
+</body>
+</html>
