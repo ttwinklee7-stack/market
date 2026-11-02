@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B Write 우리 학교 알뜰 시장 광고문</title>
+<style>
+  :root{
+    --blue:#2563eb;
+    --blue-dark:#1d4ed8;
+    --sky:#dbeafe;
+    --green:#16a34a;
+    --green-soft:#dcfce7;
+    --yellow:#facc15;
+    --yellow-soft:#fef9c3;
+    --orange:#f97316;
+    --orange-soft:#ffedd5;
+    --pink:#ec4899;
+    --pink-soft:#fce7f3;
+    --purple:#7c3aed;
+    --purple-soft:#ede9fe;
+    --red:#dc2626;
+    --gray:#6b7280;
+    --line:#e5e7eb;
+    --ink:#111827;
+    --paper:#ffffff;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    margin:0;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 10% 10%, rgba(250,204,21,.25) 0 90px, transparent 92px),
+      radial-gradient(circle at 90% 20%, rgba(236,72,153,.18) 0 120px, transparent 122px),
+      radial-gradient(circle at 20% 90%, rgba(37,99,235,.18) 0 130px, transparent 132px),
+      linear-gradient(135deg,#fff7ed 0%,#eff6ff 45%,#fdf2f8 100%);
+    min-height:100vh;
+  }
+
+  header{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(90deg,#2563eb,#7c3aed,#ec4899);
+    color:#fff;
+    padding:22px 28px;
+    border-bottom:4px solid rgba(255,255,255,.45);
+  }
+
+  header::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 8% 30%, rgba(255,255,255,.28) 0 18px, transparent 19px),
+      radial-gradient(circle at 88% 32%, rgba(255,255,255,.22) 0 28px, transparent 29px),
+      radial-gradient(circle at 62% 80%, rgba(255,255,255,.20) 0 16px, transparent 17px);
+    pointer-events:none;
+  }
+
+  h1{
+    position:relative;
+    font-size:26px;
+    margin:0;
+    letter-spacing:-.03em;
+  }
+
+  .top-note{
+    position:relative;
+    margin:8px 0 0;
+    font-size:14px;
+    opacity:.92;
+  }
+
+  main{max-width:1240px;margin:0 auto;padding:20px}
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 410px;
+    gap:18px;
+    align-items:start;
+  }
+
+  section,.preview,.card{
+    background:rgba(255,255,255,.96);
+    border:2px solid rgba(255,255,255,.9);
+    border-radius:22px;
+  }
+
+  section{
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 8px 0 rgba(17,24,39,.07);
+  }
+
+  .preview{
+    position:sticky;
+    top:18px;
+    padding:18px;
+    box-shadow:0 8px 0 rgba(37,99,235,.12);
+    border-color:#bfdbfe;
+  }
+
+  h2{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:19px;
+    margin:0 0 14px;
+    letter-spacing:-.02em;
+  }
+
+  h2 .badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:34px;
+    height:34px;
+    border-radius:12px;
+    background:var(--yellow);
+    color:#78350f;
+    font-size:16px;
+    font-weight:800;
+    border:2px solid #fde68a;
+  }
+
+  h3{
+    font-size:16px;
+    margin:12px 0 8px;
+  }
+
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  .card{
+    border-color:#e0e7ff;
+    padding:16px;
+    box-shadow:0 6px 0 rgba(124,58,237,.10);
+  }
+
+  .item1{background:linear-gradient(180deg,#ffffff,#eff6ff)}
+  .item2{background:linear-gradient(180deg,#ffffff,#fdf2f8)}
+
+  label{
+    display:block;
+    font-size:13px;
+    margin:10px 0 5px;
+    color:#374151;
+    font-weight:700;
+  }
+
+  .guide{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:5px;
+    line-height:1.5;
+    background:#f9fafb;
+    border:1px dashed #d1d5db;
+    border-radius:10px;
+    padding:7px 8px;
+  }
+
+  input,textarea{
+    width:100%;
+    padding:10px 11px;
+    border:2px solid #dbeafe;
+    border-radius:13px;
+    font-size:15px;
+    font-family:inherit;
+    background:#fff;
+    outline:none;
+    transition:.15s;
+  }
+
+  input:focus,textarea:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+  }
+
+  textarea{
+    min-height:72px;
+    resize:vertical;
+  }
+
+  input[type=range]{
+    padding:0;
+    border:none;
+    accent-color:var(--orange);
+    margin-top:8px;
+    height:28px;
+    background:transparent;
+    box-shadow:none;
+  }
+
+  button{
+    border:none;
+    border-radius:15px;
+    padding:11px 16px;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+    background:var(--blue);
+    color:#fff;
+    box-shadow:0 4px 0 #1e40af;
+    transform:translateY(0);
+  }
+
+  button:hover{filter:brightness(1.04)}
+  button:active{transform:translateY(2px);box-shadow:0 2px 0 #1e40af}
+
+  button.ghost{
+    background:#fff;
+    color:#1f2937;
+    border:2px solid #d1d5db;
+    box-shadow:0 4px 0 #d1d5db;
+  }
+
+  button.on{
+    color:#fff;
+    transform:translateY(2px);
+  }
+
+  .level-seed{background:#22c55e;box-shadow:0 4px 0 #15803d}
+  .level-tree{background:#2563eb;box-shadow:0 4px 0 #1e40af}
+  .level-fruit{background:#f97316;box-shadow:0 4px 0 #c2410c}
+
+  .tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+
+  .hint{
+    font-size:13px;
+    color:#6b7280;
+    margin:5px 0 12px;
+    line-height:1.5;
+  }
+
+  .sub{
+    display:inline-block;
+    font-size:13px;
+    color:#1e40af;
+    font-weight:900;
+    margin-top:14px;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#dbeafe;
+  }
+
+  .pbox{
+    width:100%;
+    height:210px;
+    border-radius:18px;
+    background:
+      linear-gradient(45deg,#f9fafb 25%,transparent 25%),
+      linear-gradient(-45deg,#f9fafb 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,#f9fafb 75%),
+      linear-gradient(-45deg,transparent 75%,#f9fafb 75%);
+    background-color:#eff6ff;
+    background-size:20px 20px;
+    background-position:0 0,0 10px,10px -10px,-10px 0px;
+    border:3px dashed #93c5fd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    margin-top:10px;
+    color:#64748b;
+    font-size:13px;
+    font-weight:700;
+  }
+
+  .pbox img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    display:block;
+  }
+
+  .pval{
+    display:inline-block;
+    font-size:17px;
+    font-weight:900;
+    margin-top:8px;
+    color:#9a3412;
+    background:#ffedd5;
+    border:2px solid #fed7aa;
+    border-radius:12px;
+    padding:6px 10px;
+  }
+
+  .ticks{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#6b7280;
+    margin-top:-2px;
+  }
+
+  .sent{
+    font-size:16px;
+    line-height:2.5;
+    margin:8px 0;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:14px;
+    padding:8px 10px;
+  }
+
+  .sent input{
+    width:150px;
+    display:inline-block;
+    padding:6px 8px;
+    margin:0 3px;
+    font-size:15px;
+    border-color:#fdba74;
+    background:#fff;
+  }
+
+  .sent .long{
+    width:260px;
+  }
+
+  /* 문장 끝 마침표: 마지막 입력칸 바로 뒤에 붙여 문장이 끝나 보이게 함 */
+  .sent .endmark{
+    font-size:20px;
+    font-weight:900;
+    margin-left:-1px;
+    color:#111827;
+  }
+
+  /* 씨앗 수준 힌트: 주황색 굵은 글씨로 눈에 띄게 표시 */
+  .sent input.hint-on::placeholder{
+    color:#c2410c;
+    font-weight:800;
+    opacity:1;
+  }
+
+  .sent input.hint-off::placeholder{
+    color:#9ca3af;
+    opacity:1;
+  }
+
+  .ref{
+    background:linear-gradient(180deg,#f0fdf4,#ffffff);
+    border:2px solid #bbf7d0;
+    border-radius:18px;
+    padding:13px;
+    font-size:14px;
+    line-height:1.8;
+    margin-bottom:14px;
+  }
+
+  .writebox{
+    background:#fdf2f8;
+    border:2px solid #fbcfe8;
+    border-radius:18px;
+    padding:14px;
+  }
+
+  .writebox textarea{
+    min-height:260px;
+    line-height:1.7;
+    font-size:16px;
+  }
+
+  .example-box{
+    margin-top:12px;
+    background:#fff;
+    border:1px dashed #f9a8d4;
+    border-radius:14px;
+    padding:10px;
+    font-size:13px;
+    color:#6b7280;
+    line-height:1.7;
+  }
+
+  .ptitle{
+    font-size:17px;
+    font-weight:900;
+    margin-bottom:6px;
+    color:#1e3a8a;
+  }
+
+  .preview-title{
+    background:linear-gradient(90deg,#dbeafe,#fdf2f8);
+    border-radius:15px;
+    padding:10px 12px;
+    margin-bottom:12px;
+  }
+
+  .adtext{
+    font-size:17px;
+    line-height:1.75;
+    margin-top:13px;
+    background:#fff;
+    border:2px solid #e0e7ff;
+    border-radius:16px;
+    padding:12px;
+    white-space:pre-wrap;
+  }
+
+  .adtext div{
+    padding:3px 0;
+  }
+
+  .pv{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
+  }
+
+  .pv figure{
+    background:#fff;
+    border:1px solid #dbeafe;
+    border-radius:16px;
+    padding:8px;
+    margin:0;
+  }
+
+  .pv figcaption{
+    font-size:13px;
+    margin-top:7px;
+    color:#374151;
+    line-height:1.5;
+  }
+
+  .pv .pbox{
+    height:150px;
+    margin-top:0;
+    border-width:2px;
+  }
+
+  .checks{
+    margin-top:14px;
+    border-top:2px dashed #bfdbfe;
+    padding-top:12px;
+  }
+
+  .checks table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0 6px;
+    font-size:13px;
+  }
+
+  .checks td{
+    padding:8px 9px;
+    background:#f9fafb;
+    vertical-align:top;
+  }
+
+  .checks td:first-child{
+    border-radius:10px 0 0 10px;
+    font-weight:700;
+  }
+
+  .checks td:last-child{
+    border-radius:0 10px 10px 0;
+    text-align:right;
+    white-space:nowrap;
+    font-weight:900;
+  }
+
+  .ok{color:#047857}
+  .warn{color:#b45309}
+
+  .missing{
+    font-size:13px;
+    color:#92400e;
+    margin-top:12px;
+    line-height:1.6;
+    background:#fef3c7;
+    border:1px solid #fde68a;
+    border-radius:13px;
+    padding:9px 10px;
+  }
+
+  .row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  .big-actions{
+    background:rgba(255,255,255,.82);
+    border:2px dashed #bfdbfe;
+    border-radius:20px;
+    padding:14px;
+    margin-bottom:18px;
+  }
+
+  #save{
+    background:#16a34a;
+    box-shadow:0 4px 0 #15803d;
+  }
+
+  #openGallery{
+    background:#fff;
+    color:#7c2d12;
+    border:2px solid #fdba74;
+    box-shadow:0 4px 0 #fed7aa;
+  }
+
+  #gallery{
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 12% 16%, rgba(250,204,21,.25) 0 100px, transparent 102px),
+      radial-gradient(circle at 88% 18%, rgba(37,99,235,.18) 0 110px, transparent 112px),
+      linear-gradient(135deg,#fff7ed,#eff6ff);
+    overflow:auto;
+    display:none;
+    z-index:10;
+    padding:24px;
+  }
+
+  #gallery.open{display:block}
+
+  .gtop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+    background:#fff;
+    border-radius:22px;
+    border:2px solid #bfdbfe;
+    padding:14px 16px;
+    box-shadow:0 6px 0 rgba(37,99,235,.10);
+  }
+
+  .gtop h2{margin:0}
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(460px,1fr));
+    gap:20px;
+  }
+
+  .poster-card{
+    background:linear-gradient(180deg,#ffffff,#fff7ed);
+    border:3px solid #fed7aa;
+    box-shadow:0 8px 0 rgba(249,115,22,.18);
+  }
+
+  .poster-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+    padding:10px 12px;
+    border-radius:18px;
+    background:linear-gradient(90deg,#fef3c7,#ffedd5);
+    border:2px solid #fde68a;
+  }
+
+  .poster-title{
+    font-size:22px;
+    font-weight:1000;
+    color:#7c2d12;
+    letter-spacing:-.03em;
+  }
+
+  .poster-name{
+    font-size:15px;
+    font-weight:900;
+    color:#1e3a8a;
+    background:#dbeafe;
+    border-radius:999px;
+    padding:7px 10px;
+    white-space:nowrap;
+  }
+
+  .poster-items{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:14px;
+  }
+
+  .poster-item{
+    background:#fff;
+    border:2px solid #dbeafe;
+    border-radius:18px;
+    padding:10px;
+    margin:0;
+  }
+
+  .poster-item .pbox{
+    height:260px;
+    margin-top:0;
+    border-width:2px;
+  }
+
+  .poster-caption{
+    margin-top:9px;
+    font-size:16px;
+    line-height:1.45;
+    color:#374151;
+    font-weight:700;
+  }
+
+  .poster-caption b{
+    display:block;
+    font-size:21px;
+    color:#111827;
+    margin-bottom:3px;
+  }
+
+  .poster-price{
+    display:inline-block;
+    margin-top:5px;
+    padding:5px 9px;
+    border-radius:12px;
+    background:#ffedd5;
+    color:#9a3412;
+    font-weight:1000;
+    font-size:17px;
+  }
+
+  .poster-text{
+    background:#ffffff;
+    border:3px dashed #93c5fd;
+    border-radius:20px;
+    padding:18px;
+    font-size:27px;
+    line-height:1.55;
+    font-weight:900;
+    color:#111827;
+    letter-spacing:-.02em;
+  }
+
+  .poster-text div{
+    margin:5px 0;
+  }
+
+  .poster-actions{
+    margin-top:14px;
+  }
+
+  @media(max-width:900px){
+    .layout,.grid2,.cards{grid-template-columns:1fr}
+    .preview{position:static}
+    h1{font-size:22px}
+  }
+
+  @media(max-width:700px){
+    .poster-items{grid-template-columns:1fr}
+    .poster-text{font-size:22px}
+    .poster-item .pbox{height:220px}
+    .sent .long{width:100%}
+    .sent input{width:100%; margin:4px 0}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>우리 학교 알뜰 시장 광고문 쓰기</h1>
+  <p class="top-note">사진을 올리고, 가격을 정하고, 나만의 영어 광고문을 완성해 보세요.</p>
+</header>
+
+<main>
+  <div class="layout">
+    <div>
+      <section>
+        <h2><span class="badge">1</span> Step 1. 팔고 싶은 물건 고르기</h2>
+        <label>만든 사람 이름</label>
+        <input id="student" placeholder="예: 김민지">
+        <div class="grid2" id="items" style="margin-top:12px"></div>
+      </section>
+
+      <section>
+        <h2><span class="badge">2</span> Step 2. 광고문 쓰기</h2>
+        <div class="ref" id="ref"></div>
+        <div class="tabs" id="levels"></div>
+        <p class="hint" id="levelDesc"></p>
+        <div id="blanks"></div>
+        <div id="free"></div>
+      </section>
+
+      <div class="big-actions row">
+        <button id="save">광고문 저장하기</button>
+        <button class="ghost" id="openGallery">갤러리 워크 열기</button>
+      </div>
+    </div>
+
+    <aside class="preview" id="preview"></aside>
+  </div>
+</main>
+
+<div id="gallery">
+  <div class="gtop">
+    <h2><span class="badge">G</span> 갤러리 워크</h2>
+    <div class="row">
+      <span class="hint" id="count"></span>
+      <button class="ghost" id="closeGallery">닫기</button>
+    </div>
+  </div>
+  <div class="cards" id="cards"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+}[c]));
+
+const priceOK = p => {
+  const n = Number(p);
+  return String(p).trim() !== '' && Number.isInteger(n) && n >= 1000 && n <= 10000 && n % 1000 === 0;
+};
+
+const won = p => priceOK(p) ? Number(p).toLocaleString('en-US') : '____';
+
+// These 문장은 "These ____ are ____." 형태 (물건 2 특징 빈칸 없음)
+const FRAMES = {
+  look: 'Look at my {both}.',
+  sale: 'They are on sale.',
+  thisis: 'This {i1} is {desc1}.',
+  its: "It's {p1} won.",
+  ithas: 'It has {f1}.',
+  theseare: 'These {i2} are {desc2a}.',
+  theyare: 'They are {p2} won.'
+};
+
+// 씨앗 수준에서만 빈칸 안에 보여 주는 힌트
+const HINT = {
+  both:'물건 1 and 물건 2',
+  i1:'물건 1',
+  desc1:'물건 1 크기 색깔',
+  p1:'물건 1 가격',
+  f1:'물건 1 특징',
+  i2:'물건 2',
+  desc2a:'물건 2 크기 색깔',
+  p2:'물건 2 가격'
+};
+
+const EXAMPLE_TEXT =
+`Look at my T-shirt and shoes.
+They are on sale.
+This T-shirt is purple.
+It's 2,000 won.
+It has a red heart.
+These shoes are green and blue.
+They are 3,000 won.`;
+
+const ALL_BLANKS = ['both','i1','desc1','p1','f1','i2','desc2a','p2'];
+
+const LEVELS = {
+  seed:{
+    name:'씨앗',
+    desc:'빈칸 안에 무엇을 써야 하는지 힌트가 보입니다.',
+    sentences:['look','sale','thisis','its','ithas','theseare','theyare'],
+    editable:ALL_BLANKS,
+    mode:'blank',
+    hint:true,
+    cls:'level-seed'
+  },
+  tree:{
+    name:'나무',
+    desc:'힌트 없이 활동지 사진의 빈칸을 스스로 채웁니다.',
+    sentences:['look','sale','thisis','its','ithas','theseare','theyare'],
+    editable:ALL_BLANKS,
+    mode:'blank',
+    hint:false,
+    cls:'level-tree'
+  },
+  fruit:{
+    name:'열매',
+    desc:'빈칸 없이 광고문 전체를 처음부터 끝까지 스스로 씁니다.',
+    sentences:[],
+    editable:[],
+    mode:'free',
+    hint:false,
+    cls:'level-fruit'
+  }
+};
+
+let state = {
+  student:'',
+  items:[
+    {name:'',photo:'',size:'',color:'',feature:'',price:''},
+    {name:'',photo:'',size:'',color:'',feature:'',price:''}
+  ],
+  level:'tree',
+  v:{},
+  fullText:''
+};
+
+function loadAds(){
+  try {
+    return JSON.parse(localStorage.getItem('bwrite-ads') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveAds(ads){
+  try {
+    localStorage.setItem('bwrite-ads', JSON.stringify(ads));
+    return true;
+  } catch(e) {
+    alert('저장 공간이 부족합니다. 기존 광고문을 삭제하거나 사진을 줄여 주세요.');
+    return false;
+  }
+}
+
+function shrink(file){
+  return new Promise(res => {
+    const r = new FileReader();
+
+    r.onload = () => {
+      const im = new Image();
+
+      im.onload = () => {
+        const s = Math.min(1, 1000 / Math.max(im.width, im.height));
+        const c = document.createElement('canvas');
+
+        c.width = Math.round(im.width * s);
+        c.height = Math.round(im.height * s);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+
+        res(c.toDataURL('image/jpeg', 0.85));
+      };
+
+      im.src = r.result;
+    };
+
+    r.readAsDataURL(file);
+  });
+}
+
+function levelFields(){
+  if (LEVELS[state.level].mode === 'free') return [];
+  return LEVELS[state.level].editable.slice();
+}
+
+function frameText(k){
+  return FRAMES[k].replace(/\{(\w+)\}/g, (_, f) => (state.v[f] || '').trim() || '____');
+}
+
+function currentLines(){
+  if (LEVELS[state.level].mode === 'free') {
+    return state.fullText
+      .split('\n')
+      .map(x => x.trim())
+      .filter(Boolean);
+  }
+
+  return LEVELS[state.level].sentences.map(frameText);
+}
+
+function grammarChecks(lines){
+  const nums = fn => lines.map((l, i) => fn(l.trim()) ? i + 1 : 0).filter(Boolean);
+
+  const rules = [
+    {name:'대문자로 시작', bad: nums(l => l && (!/^[A-Z]/.test(l) || /(^|\s)i(\s|'|[.!?,]|$)/.test(l)))},
+    {name:'문장부호(. ! ?)', bad: nums(l => l && !/[.!?]$/.test(l))},
+    {name:'This 문장은 is 사용', bad: nums(l => /^This\b/.test(l) && !/^This\b.* is\b/.test(l))},
+    {name:"It's 사용 확인", bad: nums(l => /^It\b/.test(l) && !/^It('|’)s\b/.test(l) && /\bwon\b/.test(l))},
+    {name:'These 문장은 are 사용', bad: nums(l => /^These\b/.test(l) && !/^These\b.* are\b/.test(l))},
+    {name:'They are 사용 확인', bad: nums(l => /^They\b/.test(l) && !/^They\b.* are\b/.test(l))}
+  ];
+
+  return rules.map(r => ({
+    name: r.name,
+    ok: r.bad.length === 0,
+    msg: r.bad.length ? `${r.bad.join(', ')}번 문장 확인` : '통과'
+  }));
+}
+
+function missingList(){
+  const out = [];
+
+  if (!state.student.trim()) out.push('만든 사람 이름');
+
+  state.items.forEach((it, i) => {
+    const n = i + 1;
+
+    if (!it.name.trim()) out.push(`물건 ${n} 이름`);
+    if (!it.photo) out.push(`물건 ${n} 사진`);
+    if (!it.size.trim()) out.push(`물건 ${n} 크기`);
+    if (!it.color.trim()) out.push(`물건 ${n} 색깔`);
+    if (!it.feature.trim()) out.push(`물건 ${n} 특징`);
+    if (!priceOK(it.price)) out.push(`물건 ${n} 가격`);
+  });
+
+  if (LEVELS[state.level].mode === 'free') {
+    if (!state.fullText.trim()) out.push('직접 쓴 광고문');
+  } else {
+    const empty = levelFields().filter(f => !(state.v[f] || '').trim()).length;
+    if (empty) out.push(`Step 2 빈칸 ${empty}개`);
+  }
+
+  return out;
+}
+
+function validate(){
+  if (!state.student.trim()) return '만든 사람 이름을 써 주세요.';
+
+  for (let i = 0; i < 2; i++) {
+    const it = state.items[i];
+    const n = i + 1;
+
+    if (!it.name.trim()) return `물건 ${n}의 이름을 써 주세요.`;
+    if (!it.photo) return `물건 ${n}의 사진을 올려 주세요.`;
+    if (!it.size.trim()) return `물건 ${n}의 크기를 써 주세요.`;
+    if (!it.color.trim()) return `물건 ${n}의 색깔을 써 주세요.`;
+    if (!it.feature.trim()) return `물건 ${n}의 특징을 써 주세요.`;
+    if (!priceOK(it.price)) return `물건 ${n}의 가격을 막대로 골라 주세요.`;
+  }
+
+  if (LEVELS[state.level].mode === 'free') {
+    if (!state.fullText.trim()) return '열매 수준에서는 광고문 전체를 직접 써 주세요.';
+  } else {
+    if (levelFields().some(f => !(state.v[f] || '').trim())) return '빈칸을 모두 채워 주세요.';
+  }
+
+  return '';
+}
+
+function renderItems(){
+  $('items').innerHTML = state.items.map((it, i) => `
+    <div class="card ${i === 0 ? 'item1' : 'item2'}">
+      <h3>${i === 0 ? '물건 1: 단수형' : '물건 2: 복수형'}</h3>
+
+      <div class="sub">Step 1-1. 팔고 싶은 물건과 사진</div>
+
+      <label>물건 이름</label>
+      <input data-item="${i}" data-field="name" value="${esc(it.name)}" placeholder="${i === 0 ? '예: T-shirt' : '예: shoes'}">
+
+      <div class="guide">${i === 0
+        ? '물건 하나를 가리키는 단수형 이름을 씁니다. 예: T-shirt, cap, watch'
+        : '여러 개이거나 짝이 있는 복수형 이름을 씁니다. 예: shoes, socks, sunglasses'}</div>
+
+      <div class="pbox">${it.photo ? `<img src="${it.photo}" alt="${esc(it.name)}">` : '사진을 올려 주세요'}</div>
+      <input type="file" accept="image/*" data-photo="${i}" style="margin-top:8px">
+
+      <div class="sub">Step 1-2. 물건의 크기, 색깔, 특징</div>
+
+      <label>크기</label>
+      <input data-item="${i}" data-field="size" value="${esc(it.size)}" placeholder="예: very small">
+
+      <label>색깔</label>
+      <input data-item="${i}" data-field="color" value="${esc(it.color)}" placeholder="예: light purple">
+
+      <label>특징</label>
+      <input data-item="${i}" data-field="feature" value="${esc(it.feature)}" placeholder="예: cute, red heart">
+
+      <div class="guide">크기, 색깔, 특징은 한 단어 또는 여러 단어로 자유롭게 씁니다.</div>
+
+      <div class="sub">Step 1-3. 물건의 가격</div>
+
+      <input type="range" min="1000" max="10000" step="1000" value="${it.price || 5000}" data-price="${i}">
+      <div class="ticks"><span>1,000</span><span>10,000</span></div>
+      <div class="pval" id="pv${i}">${it.price ? won(it.price) + ' won' : '막대를 움직여 가격을 고르세요'}</div>
+      <div class="guide">1,000원 단위로만 고를 수 있습니다.</div>
+    </div>
+  `).join('');
+}
+
+function renderRef(){
+  $('ref').innerHTML = '<b>Step 1에서 쓴 내용</b><br>' + state.items.map((it, i) =>
+    `물건 ${i+1}: ${esc(it.name.trim() || '____')} / 크기 ${esc(it.size.trim() || '____')} / 색깔 ${esc(it.color.trim() || '____')} / 특징 ${esc(it.feature.trim() || '____')} / 가격 ${won(it.price)} won`
+  ).join('<br>');
+}
+
+function renderSentences(keys){
+  const lv = LEVELS[state.level];
+
+  return keys.map(k => {
+    const html = FRAMES[k].replace(/\{(\w+)\}/g, (_, f) => {
+      const isLong = ['both','desc1','f1','desc2a'].includes(f) ? ' long' : '';
+      const cls = (isLong + (lv.hint ? ' hint-on' : ' hint-off')).trim();
+      const ph = lv.hint ? HINT[f] : '';
+
+      return `<input class="${cls}" data-key="${f}" value="${esc(state.v[f] || '')}" placeholder="${esc(ph)}" aria-label="${esc(HINT[f])}">`;
+    });
+
+    // 마지막 문장부호는 입력칸 바로 뒤에 붙여서 문장이 끝나 보이게 표시
+    const withMark = html.replace(/([^>\s])\.$/, '$1<span class="endmark">.</span>');
+
+    return `<p class="sent">${withMark}</p>`;
+  }).join('');
+}
+
+function renderStep2(){
+  $('levels').innerHTML = Object.entries(LEVELS).map(([k, v]) =>
+    `<button class="${state.level === k ? 'on ' + v.cls : 'ghost'}" data-level="${k}">${v.name}</button>`
+  ).join('');
+
+  const lv = LEVELS[state.level];
+
+  $('levelDesc').textContent = `${lv.name} 수준: ${lv.desc}`;
+
+  if (lv.mode === 'free') {
+    $('blanks').innerHTML = '';
+    $('free').innerHTML = `
+      <div class="writebox">
+        <label>광고문 전체 쓰기</label>
+        <textarea id="fullText" placeholder="예시를 참고해 처음부터 끝까지 직접 써 보세요.">${esc(state.fullText)}</textarea>
+
+        <div class="example-box">
+          <b>참고 예시</b><br>
+          ${esc(EXAMPLE_TEXT).replace(/\n/g,'<br>')}
+        </div>
+      </div>
+    `;
+  } else {
+    $('blanks').innerHTML = renderSentences(lv.sentences);
+    $('free').innerHTML = '';
+  }
+
+  renderRef();
+  renderPreview();
+}
+
+function renderPreview(){
+  const lines = currentLines();
+  const checks = grammarChecks(lines);
+  const miss = missingList();
+
+  $('preview').innerHTML = `
+    <div class="preview-title">
+      <div class="ptitle">미리보기</div>
+      <div class="hint" style="margin:0">만든 사람: ${esc(state.student.trim() || '____')}</div>
+    </div>
+
+    <div class="pv">
+      ${state.items.map(it => `
+        <figure>
+          <div class="pbox">${it.photo ? `<img src="${it.photo}" alt="${esc(it.name)}">` : '사진 없음'}</div>
+          <figcaption>
+            <b>${esc(it.name.trim() || '____')}</b><br>
+            ${esc(it.size.trim() || '____')}, ${esc(it.color.trim() || '____')}, ${esc(it.feature.trim() || '____')}<br>
+            ${won(it.price)} won
+          </figcaption>
+        </figure>
+      `).join('')}
+    </div>
+
+    <div class="adtext">
+      ${lines.length ? lines.map(l => `<div>${esc(l)}</div>`).join('') : '아직 쓴 문장이 없습니다.'}
+    </div>
+
+    <div class="checks">
+      <div class="ptitle" style="font-size:14px">문장 점검</div>
+      <table>
+        ${checks.map(c => `
+          <tr>
+            <td>${esc(c.name)}</td>
+            <td class="${c.ok ? 'ok' : 'warn'}">${esc(c.msg)}</td>
+          </tr>
+        `).join('')}
+      </table>
+    </div>
+
+    <div class="missing">
+      ${miss.length
+        ? '아직 필요한 것: ' + miss.join(', ')
+        : '필수 칸을 모두 채웠습니다. 저장할 수 있습니다.'}
+    </div>
+  `;
+}
+
+function renderGallery(){
+  const ads = loadAds();
+
+  $('count').textContent = `${ads.length}개의 광고문`;
+
+  $('cards').innerHTML = ads.length ? ads.map(ad => `
+    <article class="card poster-card">
+      <div class="poster-head">
+        <div class="poster-title">우리 학교 알뜰 시장</div>
+        <div class="poster-name">${esc(ad.student)}</div>
+      </div>
+
+      <div class="poster-items">
+        ${ad.items.map(it => `
+          <figure class="poster-item">
+            <div class="pbox">${it.photo ? `<img src="${it.photo}" alt="${esc(it.name)}">` : ''}</div>
+            <figcaption class="poster-caption">
+              <b>${esc(it.name)}</b>
+              ${esc(it.size)}, ${esc(it.color)}, ${esc(it.feature)}<br>
+              <span class="poster-price">${won(it.price)} won</span>
+            </figcaption>
+          </figure>
+        `).join('')}
+      </div>
+
+      <div class="poster-text">
+        ${ad.lines.map(l => `<div>${esc(l)}</div>`).join('')}
+      </div>
+
+      <div class="row poster-actions">
+        <button data-png="${ad.id}">PNG 다운로드</button>
+        <button class="ghost" data-del="${ad.id}">삭제</button>
+      </div>
+    </article>
+  `).join('') : '<p>저장된 광고문이 없습니다.</p>';
+}
+
+function openGallery(){
+  renderGallery();
+  $('gallery').classList.add('open');
+
+  if ($('gallery').requestFullscreen) {
+    $('gallery').requestFullscreen().catch(() => {});
+  }
+}
+
+function closeGallery(){
+  $('gallery').classList.remove('open');
+
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  }
+}
+
+function loadImg(src){
+  return new Promise(res => {
+    if (!src) return res(null);
+
+    const im = new Image();
+    im.onload = () => res(im);
+    im.onerror = () => res(null);
+    im.src = src;
+  });
+}
+
+function drawContain(g, img, x, y, w, h){
+  g.fillStyle = '#f3f4f6';
+  g.fillRect(x, y, w, h);
+
+  const s = Math.min(w / img.width, h / img.height);
+  const dw = img.width * s;
+  const dh = img.height * s;
+
+  g.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+}
+
+function wrap(ctx, text, maxW){
+  const out = [];
+  let line = '';
+
+  text.split(' ').forEach(w => {
+    const t = line ? line + ' ' + w : w;
+
+    if (ctx.measureText(t).width > maxW && line) {
+      out.push(line);
+      line = w;
+    } else {
+      line = t;
+    }
+  });
+
+  if (line) out.push(line);
+
+  return out;
+}
+
+async function makeAdCanvas(ad){
+  const W = 1400;
+  const P = 70;
+  const GAP = 44;
+  const PH = 500;
+  const CH = 42;
+  const TITLE_H = 135;
+  const pw = (W - P * 2 - GAP) / 2;
+
+  const mctx = document.createElement('canvas').getContext('2d');
+  mctx.font = 'bold 44px Pretendard, sans-serif';
+
+  const textLines = [];
+  ad.lines.forEach(l => wrap(mctx, l, W - P * 2 - 40).forEach(x => textLines.push(x)));
+
+  const itemTop = P + TITLE_H;
+  const textTop = itemTop + PH + 185;
+  const lineH = 66;
+  const H = textTop + textLines.length * lineH + P + 40;
+
+  const cv = document.createElement('canvas');
+  cv.width = W;
+  cv.height = H;
+
+  const g = cv.getContext('2d');
+
+  g.fillStyle = '#fff7ed';
+  g.fillRect(0, 0, W, H);
+
+  g.fillStyle = '#dbeafe';
+  g.beginPath();
+  g.arc(130, 120, 115, 0, Math.PI * 2);
+  g.fill();
+
+  g.fillStyle = '#fce7f3';
+  g.beginPath();
+  g.arc(W - 120, 125, 145, 0, Math.PI * 2);
+  g.fill();
+
+  g.fillStyle = '#fef3c7';
+  roundRect(g, P - 15, P - 15, W - P * 2 + 30, 120, 32, true, false);
+
+  g.fillStyle = '#7c2d12';
+  g.font = 'bold 58px Pretendard, sans-serif';
+  g.fillText('우리 학교 알뜰 시장', P + 10, P + 58);
+
+  g.fillStyle = '#1e3a8a';
+  g.font = 'bold 30px Pretendard, sans-serif';
+  g.fillText(`만든 사람: ${ad.student}`, P + 12, P + 100);
+
+  for (let i = 0; i < ad.items.length; i++) {
+    const it = ad.items[i];
+    const x = P + i * (pw + GAP);
+    const img = await loadImg(it.photo);
+
+    g.fillStyle = '#ffffff';
+    g.strokeStyle = i === 0 ? '#93c5fd' : '#f9a8d4';
+    g.lineWidth = 5;
+    roundRect(g, x - 12, itemTop - 12, pw + 24, PH + 160, 30, true, true);
+
+    if (img) {
+      drawContain(g, img, x, itemTop, pw, PH);
+    } else {
+      g.fillStyle = '#f3f4f6';
+      roundRect(g, x, itemTop, pw, PH, 20, true, false);
+    }
+
+    g.fillStyle = '#111827';
+    g.font = 'bold 42px Pretendard, sans-serif';
+    g.fillText(it.name, x, itemTop + PH + 55);
+
+    g.font = 'bold 27px Pretendard, sans-serif';
+    g.fillStyle = '#374151';
+
+    const cap = `${it.size}, ${it.color}, ${it.feature}`;
+
+    wrap(g, cap, pw).slice(0, 2).forEach((t, k) => {
+      g.fillText(t, x, itemTop + PH + 95 + k * CH);
+    });
+
+    g.fillStyle = '#ffedd5';
+    roundRect(g, x, itemTop + PH + 112, 230, 46, 14, true, false);
+
+    g.fillStyle = '#9a3412';
+    g.font = 'bold 28px Pretendard, sans-serif';
+    g.fillText(`${won(it.price)} won`, x + 16, itemTop + PH + 145);
+  }
+
+  g.fillStyle = '#ffffff';
+  g.strokeStyle = '#93c5fd';
+  g.lineWidth = 5;
+  roundRect(g, P, textTop - 58, W - P * 2, textLines.length * lineH + 72, 30, true, true);
+
+  g.fillStyle = '#111827';
+  g.font = 'bold 44px Pretendard, sans-serif';
+
+  textLines.forEach((l, k) => {
+    g.fillText(l, P + 28, textTop + k * lineH);
+  });
+
+  return cv;
+}
+
+function roundRect(ctx, x, y, w, h, r, fill, stroke){
+  if (w < 2 * r) r = w / 2;
+  if (h < 2 * r) r = h / 2;
+
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
+}
+
+function download(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function safeName(name){
+  return (name || '광고문').replace(/[\\/:*?"<>|]/g, '').trim() || '광고문';
+}
+
+async function saveCurrentAd(){
+  const err = validate();
+
+  if (err) {
+    alert(err);
+    return;
+  }
+
+  const a = state.items[0].name.trim();
+  const b = state.items[1].name.trim();
+
+  if (/s$/i.test(a) && !confirm(`물건 1 "${a}"은(는) 단수형으로 쓰는 것이 좋습니다. 그대로 저장할까요?`)) return;
+  if (!/s$/i.test(b) && !confirm(`물건 2 "${b}"은(는) 복수형으로 보이지 않습니다. 그대로 저장할까요?`)) return;
+
+  const ad = {
+    id: Date.now(),
+    student: state.student.trim(),
+    level: state.level,
+    items: state.items.map(x => ({...x})),
+    lines: currentLines()
+  };
+
+  const ads = loadAds();
+  ads.push(ad);
+
+  if (!saveAds(ads)) return;
+
+  const cv = await makeAdCanvas(ad);
+
+  cv.toBlob(blob => {
+    download(blob, `알뜰시장-${safeName(ad.student)}.png`);
+    alert(`저장되었습니다. PNG 파일도 다운로드했습니다. 갤러리 워크에 광고문 ${ads.length}개가 있습니다.`);
+  });
+}
+
+$('student').addEventListener('input', e => {
+  state.student = e.target.value;
+  renderPreview();
+});
+
+$('items').addEventListener('input', e => {
+  const t = e.target;
+
+  if (t.dataset.field) {
+    state.items[+t.dataset.item][t.dataset.field] = t.value;
+    renderRef();
+    renderPreview();
+  }
+
+  if (t.dataset.price !== undefined) {
+    const i = +t.dataset.price;
+    state.items[i].price = t.value;
+    $(`pv${i}`).textContent = won(t.value) + ' won';
+    renderRef();
+    renderPreview();
+  }
+});
+
+$('items').addEventListener('change', async e => {
+  const t = e.target;
+
+  if (t.dataset.photo !== undefined && t.files[0]) {
+    state.items[+t.dataset.photo].photo = await shrink(t.files[0]);
+    renderItems();
+    renderStep2();
+  }
+});
+
+$('levels').addEventListener('click', e => {
+  const k = e.target.dataset.level;
+
+  if (!k) return;
+
+  state.level = k;
+  renderStep2();
+});
+
+$('blanks').addEventListener('input', e => {
+  const k = e.target.dataset.key;
+
+  if (k === undefined) return;
+
+  state.v[k] = e.target.value;
+  renderPreview();
+});
+
+$('free').addEventListener('input', e => {
+  if (e.target.id === 'fullText') {
+    state.fullText = e.target.value;
+    renderPreview();
+  }
+});
+
+$('save').addEventListener('click', saveCurrentAd);
+$('openGallery').addEventListener('click', openGallery);
+$('closeGallery').addEventListener('click', closeGallery);
+
+$('cards').addEventListener('click', async e => {
+  const pid = e.target.dataset.png;
+  const did = e.target.dataset.del;
+
+  if (pid) {
+    const ad = loadAds().find(a => String(a.id) === pid);
+
+    if (!ad) return;
+
+    const cv = await makeAdCanvas(ad);
+
+    cv.toBlob(b => download(b, `알뜰시장-${safeName(ad.student)}.png`));
+  }
+
+  if (did) {
+    if (!confirm('이 광고문을 삭제할까요?')) return;
+
+    saveAds(loadAds().filter(a => String(a.id) !== did));
+    renderGallery();
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    $('gallery').classList.remove('open');
+  }
+});
+
+renderItems();
+renderStep2();
+</script>
+</body>
+</html>
